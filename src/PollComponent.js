@@ -54,9 +54,7 @@ export default class PollComponent extends React.Component {
             <div>
                 <h2>Poll (id = {this.props.id})</h2>
                 <div className={"poll"}>
-                    <div>
                     {this.state.vote_items}
-                    </div>
                 </div>
             </div>
         );

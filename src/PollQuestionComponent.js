@@ -3,16 +3,13 @@ import React from 'react';
 export default class PollQuestionComponent extends React.Component {
     constructor(props) {
         super(props);
-        this.state = {
-            //selectedOption: "no"
-        };
+        this.state = {};
     }
 
     handleOptionChange = changeEvent => {
       this.setState({
           selectedOption: changeEvent.target.value
       });
-      console.log(changeEvent.target.value);
     };
 
     render() {

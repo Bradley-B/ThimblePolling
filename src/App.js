@@ -8,6 +8,7 @@ import {
 } from "react-router-dom";
 import './App.css';
 import PollComponent from "./PollComponent";
+import LoginComponent from "./LoginComponent";
 
 const routes = [
     {
@@ -23,7 +24,7 @@ const routes = [
     {
         path: "/:id",
         exact: true,
-        main: () => <Poll />
+        main: () => <GetParams />
     }
 ];
 
@@ -47,7 +48,7 @@ function App() {
                             key={index}
                             path={route.path}
                             exact={route.exact}
-                            children={<route.main />}
+                            children={<route.main/>}
                         />
                     ))}
                 </Switch>
@@ -68,9 +69,29 @@ function About() {
     return <h2>About</h2>;
 }
 
-function Poll() {
-    let { id } = useParams();
-    return <PollComponent id={id}/>
+function GetParams() {
+    let {id} = useParams();
+    return <Poll id={id} />
+}
+
+class Poll extends React.Component {
+    constructor(props) {
+        super(props);
+        this.state = {logged_in: false};
+        this.handleLogin = this.handleLogin.bind(this);
+    }
+
+    handleLogin(name) {
+        this.setState({logged_in: true, name: name});
+    }
+
+    render() {
+        if(this.state.logged_in) {
+            return <PollComponent id={this.props.id}/>
+        } else {
+            return <LoginComponent callback={this.handleLogin}/>
+        }
+    }
 }
 
 export default App;
