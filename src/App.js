@@ -3,9 +3,11 @@ import {
     BrowserRouter as Router,
     Switch,
     Route,
-    Link
+    Link,
+    useParams
 } from "react-router-dom";
 import './App.css';
+import PollComponent from "./PollComponent";
 
 const routes = [
     {
@@ -18,13 +20,18 @@ const routes = [
         exact: true,
         main: () => <About />
     },
+    {
+        path: "/:id",
+        exact: true,
+        main: () => <Poll />
+    }
 ];
 
 function App() {
     return (
         <div className="App">
             <Router>
-                <body className="body">
+                <div className="body">
 
                 <header className="App-header">
                     <p>Better Voting</p>
@@ -46,7 +53,7 @@ function App() {
                 </Switch>
 
 
-                </body>
+                </div>
 
             </Router>
         </div>
@@ -59,6 +66,11 @@ function Home() {
 
 function About() {
     return <h2>About</h2>;
+}
+
+function Poll() {
+    let { id } = useParams();
+    return <PollComponent id={id}/>
 }
 
 export default App;

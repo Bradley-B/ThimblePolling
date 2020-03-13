@@ -46,6 +46,10 @@
   max-height: 100vh;
 }
 
+.poll {
+  color: gray;
+}
+
 .App-link {
   color: #61dafb;
 }
@@ -57,4 +61,51 @@
   to {
     transform: rotate(360deg);
   }
+}
+
+.poll-question {
+  list-style-type: none;
+  padding: 0;
+  margin: 3rem 0 0 0;
+}
+
+.poll-question li {
+  float: left;
+  margin: 0 1rem 0 0;
+  width: 8rem;
+  height: 3rem;
+  position: relative;
+}
+
+.poll-question label, .poll-question input {
+  display: block;
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+}
+
+.poll-question input[type="radio"] {
+  opacity: 0.011;
+  z-index: 100;
+}
+
+.poll-question input[type="radio"]:checked + label {
+  background: yellow;
+}
+
+.poll-question input[type="radio"]:checked + label {
+  background: yellow;
+}
+
+.poll-question label {
+  padding: 5px;
+  border: 1px solid #CCC;
+  cursor: pointer;
+  z-index: 90;
+}
+
+.poll-question label:hover {
+  background: #DDD;
 }
