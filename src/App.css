@@ -15,13 +15,35 @@
 
 .App-header {
   background-color: #282c34;
-  min-height: 100vh;
+  min-height: 10vh;
   display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
+  flex-direction: row;
+  align-items: flex-start;
+  justify-content: flex-start;
   font-size: calc(10px + 2vmin);
   color: white;
+}
+
+.App-header p {
+  position: absolute;
+  left: 20vw;
+  margin: 0;
+}
+
+.App-header nav {
+  position: absolute;
+  right: 20vw;
+}
+
+.App-header nav a {
+  color: red;
+  padding-left: 1vw;
+  padding-right: 1vw;
+}
+
+.body {
+  min-height: 100vh;
+  max-height: 100vh;
 }
 
 .App-link {

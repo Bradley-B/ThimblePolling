@@ -16,17 +16,21 @@ app.use(express.json());
 app.get('/api/test', function(req, res) {
 	let test_query = {
 		location: 'Bridgewater, NJ'
-	}
+	};
 	
 	yelp_client.search(test_query).then(response => {
-		const prettyJson = JSON.stringify(response.jsonBody, null, 4);
-		console.log(prettyJson);
+		let prettyJson = JSON.stringify(response.jsonBody, null, 4);
+		//console.log(prettyJson);
 		return res.send(prettyJson);
 	}).catch(e => {
 		return res.send(e);
 	});
 	
 	//return res.send("it works!");
+});
+
+app.get('*', function(req, res){
+	res.status(404).send('404 Error');
 });
 
 app.listen(5679);
