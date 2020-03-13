@@ -63,7 +63,8 @@
 .poll-question li {
   float: left;
   margin: 0 1rem 0 0;
-  width: 8rem;
+  width: 25vw;
+  max-width: 8rem;
   height: 3rem;
   position: relative;
 }
