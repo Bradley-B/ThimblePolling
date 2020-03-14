@@ -25,7 +25,7 @@ app.use(express.json());
 
 app.post('/api/create/', function(req, res) {
 	//objective: create new poll and send the url back to the client
-	console.log("got body "  + JSON.stringify(req.body));
+	console.log("got create body "  + JSON.stringify(req.body));
 	const new_poll_id = randomString();
 
 	//create row in poll table
@@ -51,12 +51,30 @@ app.post('/api/create/', function(req, res) {
 
 });
 
-app.put('/api/update/:id/:userId/:itemId/:vote', function(req, res) {
-	let id = req.params.id;
-	let userId = req.params.userId;
-	let itemId = req.params.itemId;
-	let vote = req.params.vote;
+app.get('/api/get', function(req, res) {
+	//objective: get all the questions in a poll, the answers to the questions in the poll, and send them back to the client
+});
 
+app.put('/api/update', function(req, res) {
+	//objective: create a row for the answer
+	console.log("got update body: " + JSON.stringify(req.body));
+
+	if(!req.body.hasOwnProperty('authorname') || !req.body.hasOwnProperty('value') || !req.body.hasOwnProperty('questionid')) {
+		console.log("update body did not have sufficient data");
+		return res.sendStatus(400);
+	}
+
+	db.query("INSERT INTO answer (value, authorname, questionid) VALUES ('" + req.body.value + "', '" +
+		req.body.authorname + "', '" + req.body.questionid + "') ON DUPLICATE KEY UPDATE value='"+ req.body.value +"'", (err, result) => {
+
+		if(err) {
+			console.log("DB ERROR: " + err);
+			return res.sendStatus(400);
+		} else {
+			console.log("created row in table for answer for question id: " + req.body.questionid);
+			return res.sendStatus(204);
+		}
+	});
 });
 
 app.get('/api/test', function(req, res) {
