@@ -47,7 +47,7 @@ app.post('/api/create/', function(req, res) {
 				});
 			});
 		}
-		return res.send(new_poll_id);
+		return res.send(""+new_poll_id+"\n");
 	});
 
 });
@@ -66,9 +66,8 @@ app.get('/api/get', function(req, res) {
 			db.query("SELECT (name) FROM poll WHERE id='" + req.body.pollid + "'", this);
 		},
 		function checkPollName(error, rows) {
-			if(error) { //poll id does not exist
-				console.log("DB ERROR: ", err);
-				return res.send({exists: false});
+			if(rows.length === 0) { //poll id does not exist
+				return res.send(JSON.stringify({exists: false})+"\n");
 			}
 			resultObject.name = rows[0].name;
 			db.query("SELECT * FROM question WHERE pollid='" + req.body.pollid + "'", this); //query questions in the poll
@@ -81,7 +80,9 @@ app.get('/api/get', function(req, res) {
 			});
 		},
 		function processAnswers(err, rows) {
-			//console.log(rows);
+			if(rows === undefined) {
+				return;
+			}
 			rows.forEach((question, qindex) => {
 				let positivevotes = 0;
 				let negativevotes = 0;
@@ -96,8 +97,7 @@ app.get('/api/get', function(req, res) {
 				resultObject.questions[qindex].positivevotes = positivevotes;
 				resultObject.questions[qindex].negativevotes = negativevotes;
 			});
-			console.log(resultObject);
-			return res.send(resultObject);
+			return res.send(JSON.stringify(resultObject)+"\n");
 		}
 	);
 });
