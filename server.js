@@ -52,25 +52,19 @@ app.post('/api/create/', function(req, res) {
 
 });
 
-app.get('/api/get', function(req, res) {
+app.get('/api/get/:pollid', function(req, res) {
 	//objective: get all the questions in a poll, the answers to the questions in the poll, and send them back to the client
-
-	if(!req.body.hasOwnProperty("pollid")) {
-		console.log("get body did not have sufficient data");
-		return res.sendStatus(400);
-	}
-
-	let resultObject = {exists: true, pollid: req.body.pollid, totalvotes: 0, questions: []};
+	let resultObject = {exists: true, pollid: req.params.pollid, totalvotes: 0, questions: []};
 	step(
 		function start() {
-			db.query("SELECT (name) FROM poll WHERE id='" + req.body.pollid + "'", this);
+			db.query("SELECT (name) FROM poll WHERE id='" + req.params.pollid + "'", this);
 		},
 		function checkPollName(error, rows) {
 			if(rows.length === 0) { //poll id does not exist
 				return res.send(JSON.stringify({exists: false})+"\n");
 			}
 			resultObject.name = rows[0].name;
-			db.query("SELECT * FROM question WHERE pollid='" + req.body.pollid + "'", this); //query questions in the poll
+			db.query("SELECT * FROM question WHERE pollid='" + req.params.pollid + "'", this); //query questions in the poll
 		},
 		function processQuestions(error, rows) {
 			let group = this.group();
