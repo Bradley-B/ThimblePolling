@@ -3,6 +3,7 @@ const fs = require('fs');
 const mysql = require('mysql');
 const yelp = require('yelp-fusion');
 const bodyParser = require('body-parser'); // set up bodyParser with json support
+const step = require('./step');
 
 const passwords = fs.readFileSync("./tokens.txt").toString('utf-8');
 const yelp_api_key = passwords.split('\n')[1].split(' ')[1];
@@ -53,6 +54,52 @@ app.post('/api/create/', function(req, res) {
 
 app.get('/api/get', function(req, res) {
 	//objective: get all the questions in a poll, the answers to the questions in the poll, and send them back to the client
+
+	if(!req.body.hasOwnProperty("pollid")) {
+		console.log("get body did not have sufficient data");
+		return res.sendStatus(400);
+	}
+
+	let resultObject = {exists: true, pollid: req.body.pollid, totalvotes: 0, questions: []};
+	step(
+		function start() {
+			db.query("SELECT (name) FROM poll WHERE id='" + req.body.pollid + "'", this);
+		},
+		function checkPollName(error, rows) {
+			if(error) { //poll id does not exist
+				console.log("DB ERROR: ", err);
+				return res.send({exists: false});
+			}
+			resultObject.name = rows[0].name;
+			db.query("SELECT * FROM question WHERE pollid='" + req.body.pollid + "'", this); //query questions in the poll
+		},
+		function processQuestions(error, rows) {
+			let group = this.group();
+			rows.forEach((question) => { //query answers to all questions in the poll
+				resultObject.questions.push({name: question.name, questionid: question.id});
+				db.query("SELECT * FROM answer WHERE questionid='" + question.id + "'", group());
+			});
+		},
+		function processAnswers(err, rows) {
+			//console.log(rows);
+			rows.forEach((question, qindex) => {
+				let positivevotes = 0;
+				let negativevotes = 0;
+				question.forEach((answer) => {
+					if(answer.value === "YES") {
+						positivevotes++;
+					} else if(answer.value === "NO") {
+						negativevotes++;
+					}
+				});
+				resultObject.totalvotes += positivevotes + negativevotes;
+				resultObject.questions[qindex].positivevotes = positivevotes;
+				resultObject.questions[qindex].negativevotes = negativevotes;
+			});
+			console.log(resultObject);
+			return res.send(resultObject);
+		}
+	);
 });
 
 app.put('/api/update', function(req, res) {
