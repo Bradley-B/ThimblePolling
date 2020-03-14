@@ -8,7 +8,7 @@ export default class PollComponent extends React.Component {
         id: 0,
         name: "test poll",
         total_votes: 0, 
-        items: [
+        questions: [
             {
                 name: "item one",
                 id: 1,
@@ -35,7 +35,7 @@ export default class PollComponent extends React.Component {
             return;
         }
 
-        for(const [index, value] of this.vote_items_sample.items.entries()) {
+        for(const [index, value] of this.vote_items_sample.questions.entries()) {
             this.vote_items.push(
                 <PollQuestionComponent key={value.id} info={value}/>
             );
