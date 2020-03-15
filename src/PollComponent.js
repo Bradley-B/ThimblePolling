@@ -15,7 +15,7 @@ export default class PollComponent extends React.Component {
         fetch("/api/get/"+this.props.id).then((response) => {
             response.json().then((result) => {
                 if(result.exists === false) {
-                    let jsx = <div key={"sad"}><h3>Poll does note exist. Boo hoo.</h3></div>;
+                    let jsx = <div key={"sad"}><h3>Poll does not exist. Boo hoo.</h3></div>;
                     this.setState({isloading: false, exists: false, jsx: jsx});
                     return;
                 }

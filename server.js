@@ -27,6 +27,12 @@ app.use(express.json());
 app.post('/api/create/', function(req, res) {
 	//objective: create new poll and send the url back to the client
 	console.log("got create body "  + JSON.stringify(req.body));
+
+	if(!req.body.hasOwnProperty("questions") || !req.body.hasOwnProperty("name")) {
+		console.log("create body did not have sufficient data");
+		return res.sendStatus(400);
+	}
+
 	const new_poll_id = randomString();
 
 	//create row in poll table
