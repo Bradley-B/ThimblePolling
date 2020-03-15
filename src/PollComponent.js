@@ -33,7 +33,7 @@ export default class PollComponent extends React.Component {
                         vote_percent = 1;
                     }
                     result_jsx.push(
-                        <p>{value.name + ": " + (vote_percent*100).toFixed(2) + "%"}</p>
+                        <p key={value.questionid}>{value.name + ": " + (vote_percent*100).toFixed(2) + "%"}</p>
                     );
                 }
                 this.setState({isloading: false, exists: true, poll_jsx: poll_jsx, pollname: result.name, result_jsx: result_jsx});
@@ -52,10 +52,13 @@ export default class PollComponent extends React.Component {
             <div>
                 <h2>Poll (name = {"'" + this.state.pollname + "'"})</h2>
                 <div className={"poll"}>
-                    {this.state.poll_jsx}
-                </div>
-                <div className={"poll-results"}>
-                    {this.state.result_jsx}
+                    <div className={"poll-questions"}>
+                        {this.state.poll_jsx}
+                    </div>
+                    <span/>
+                    <div className={"poll-results"}>
+                        {this.state.result_jsx}
+                    </div>
                 </div>
             </div>
         );

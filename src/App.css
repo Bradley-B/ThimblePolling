@@ -2,6 +2,10 @@
   text-align: center;
 }
 
+.App-link {
+  color: #61dafb;
+}
+
 .App-logo {
   height: 40vmin;
   pointer-events: none;
@@ -48,21 +52,33 @@
 
 .poll {
   color: gray;
+  display: flex;
+  flex-wrap: wrap;
+  flex-direction: row;
+  justify-content: center;
 }
 
-.App-link {
-  color: #61dafb;
+.poll-results {
+  padding-top: 1rem;
+}
+
+.poll span {
+  padding-left: 8rem;
+  padding-right: 8rem;
 }
 
 .poll-question {
-  list-style-type: none;
+  display: flex;
+  flex-direction: row;
   padding: 0;
-  margin: 3rem 0 0 0;
+  margin-top: 15px;
+  margin-bottom: 15px;
 }
 
 .poll-question li {
-  float: left;
-  margin: 0 1rem 0 0;
+  display: inline-block;
+  margin-left: 5px;
+  margin-right: 5px;
   width: 25vw;
   max-width: 8rem;
   height: 3rem;

@@ -24,7 +24,7 @@ export default class PollQuestionComponent extends React.Component {
     render() {
         return (
             <ul className={"poll-question"}>
-                <li>{this.props.info.name}</li>
+                <li id={"label"}>{this.props.info.name}</li>
                 <li>
                     <input value={"YES"} type={"radio"} id={this.props.info.questionid+"yes"} checked={this.state.selectedOption === "YES"} onChange={this.handleOptionChange}/>
                     <label htmlFor={this.props.info.questionid+"yes"} id={"yes"}>YES</label>
