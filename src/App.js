@@ -87,7 +87,7 @@ class Poll extends React.Component {
 
     render() {
         if(this.state.logged_in) {
-            return <PollComponent id={this.props.id}/>
+            return <PollComponent id={this.props.id} authorname={this.state.name}/>
         } else {
             return <LoginComponent callback={this.handleLogin}/>
         }

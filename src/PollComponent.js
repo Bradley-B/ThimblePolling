@@ -23,7 +23,7 @@ export default class PollComponent extends React.Component {
                 let jsx = [];
                 for(const [index, value] of result.questions.entries()) {
                     jsx.push(
-                        <PollQuestionComponent key={value.questionid} info={value}/>
+                        <PollQuestionComponent key={value.questionid} info={value} authorname={this.props.authorname}/>
                     );
                 }
                 this.setState({isloading: false, exists: true, jsx: jsx});

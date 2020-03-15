@@ -14,7 +14,7 @@ export default class PollQuestionComponent extends React.Component {
 
     handleSubmit(event) {
         event.preventDefault();
-        this.props.callback(event.target.value);
+        this.props.callback(this.state.name);
     }
 
     render() {

@@ -10,6 +10,15 @@ export default class PollQuestionComponent extends React.Component {
       this.setState({
           selectedOption: changeEvent.target.value
       });
+      fetch('/api/update', {
+          method: 'PUT',
+          headers: {'Content-Type': 'application/json'},
+          body: JSON.stringify({
+              authorname: this.props.authorname,
+              questionid: this.props.info.questionid,
+              value: changeEvent.target.value
+          })
+      });
     };
 
     render() {
@@ -17,11 +26,11 @@ export default class PollQuestionComponent extends React.Component {
             <ul className={"poll-question"}>
                 <li>{this.props.info.name}</li>
                 <li>
-                    <input value={"yes"} type={"radio"} id={this.props.info.questionid+"yes"} checked={this.state.selectedOption === "yes"} onChange={this.handleOptionChange}/>
+                    <input value={"YES"} type={"radio"} id={this.props.info.questionid+"yes"} checked={this.state.selectedOption === "YES"} onChange={this.handleOptionChange}/>
                     <label htmlFor={this.props.info.questionid+"yes"} id={"yes"}>YES</label>
                 </li>
                 <li>
-                    <input value={"no"} type={"radio"} id={this.props.info.questionid+"no"} checked={this.state.selectedOption === "no"} onChange={this.handleOptionChange}/>
+                    <input value={"NO"} type={"radio"} id={this.props.info.questionid+"no"} checked={this.state.selectedOption === "NO"} onChange={this.handleOptionChange}/>
                     <label htmlFor={this.props.info.questionid+"no"} id={"no"}>NO</label>
                 </li>
                 <br/>
