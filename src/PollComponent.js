@@ -2,46 +2,34 @@ import React from "react";
 import PollQuestionComponent from "./PollQuestionComponent";
 
 export default class PollComponent extends React.Component {
-    vote_items = [];
-    vote_items_sample = {
-        exists: true,
-        id: 0,
-        name: "test poll",
-        total_votes: 0, 
-        questions: [
-            {
-                name: "item one",
-                id: 1,
-                positive_votes: 0,
-                negative_votes: 0
-            },
-            {
-                name: "item two",
-                id: 2,
-                positive_votes: 0,
-                negative_votes: 0 
-            }
-        ] };
 
     constructor(props) {
         super(props);
-        this.state = {};
+        let loading_jsx = <div key={"loading"}><h3>Loading...</h3></div>;
+        this.state = {isloading: true, jsx: loading_jsx};
     }
 
     componentDidMount() {
         //get poll information here - ajax call or socket connection
 
-        if(!this.vote_items_sample.exists) {
-            return;
-        }
+        fetch("/api/get/"+this.props.id).then((response) => {
+            response.json().then((result) => {
+                if(result.exists === false) {
+                    let jsx = <div key={"sad"}><h3>Poll does note exist. Boo hoo.</h3></div>;
+                    this.setState({isloading: false, exists: false, jsx: jsx});
+                    return;
+                }
 
-        for(const [index, value] of this.vote_items_sample.questions.entries()) {
-            this.vote_items.push(
-                <PollQuestionComponent key={value.id} info={value}/>
-            );
-        }
+                let jsx = [];
+                for(const [index, value] of result.questions.entries()) {
+                    jsx.push(
+                        <PollQuestionComponent key={value.questionid} info={value}/>
+                    );
+                }
+                this.setState({isloading: false, exists: true, jsx: jsx});
+            });
+        });
 
-        this.setState({"vote_items": this.vote_items});
     }
 
     render() {
@@ -54,7 +42,7 @@ export default class PollComponent extends React.Component {
             <div>
                 <h2>Poll (id = {this.props.id})</h2>
                 <div className={"poll"}>
-                    {this.state.vote_items}
+                    {this.state.jsx}
                 </div>
             </div>
         );
