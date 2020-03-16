@@ -38,7 +38,7 @@ function App() {
                 <header className="App-header">
                     <p>Better Voting</p>
                     <nav>
-                        <Link to="/">Home</Link>
+                        <Link to="/">Create Poll</Link>
                         <Link to="/about">About</Link>
                     </nav>
                 </header>
@@ -63,7 +63,12 @@ function App() {
 }
 
 function About() {
-    return <h2>About</h2>;
+    return <div>
+        <h2>About</h2>
+        <p>This website is an easy way to create polls. The yes/no format encourages approval voting, where people vote for all things they like, not just their favorite.</p>
+        <br/>
+        <p>Inspired by</p><a href={"https://www.youtube.com/watch?v=orybDrUj4vA"}>this CGP Grey video</a>
+    </div>;
 }
 
 function GetParams() {

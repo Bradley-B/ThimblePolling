@@ -36,7 +36,7 @@
 
 .App-header nav {
   position: absolute;
-  right: 20vw;
+  right: 10vw;
 }
 
 .App-header nav a {
@@ -122,7 +122,7 @@
   background: rgba(0, 255, 0, 0.15);
 }
 
-.login-form input[type="text"]{
+.login-form input[type="text"], .create-form input[type="text"]{
   width: 250px;
   padding: 10px;
   border: none;
@@ -131,7 +131,7 @@
   margin: 0 0 25px 0;
 }
 
-.login-form input[type="submit"] {
+.login-form input[type="submit"], .create-form input[type="submit"], .create-form button {
   width: 8rem;
   height: 3rem;
   border: 1px solid #CCC;
@@ -139,4 +139,10 @@
   background-color: white;
   cursor: pointer;
   border-radius: 5px;
+}
+
+.create-form button {
+  margin-bottom: 10px;
+  margin-left: 10px;
+  margin-right: 10px;
 }
