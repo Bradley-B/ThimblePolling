@@ -24,7 +24,7 @@ DROP TABLE IF EXISTS `answer`;
 /*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `answer` (
   `value` varchar(45) NOT NULL,
-  `authorname` varchar(45) NOT NULL,
+  `authorname` varchar(255) NOT NULL,
   `questionid` varchar(45) NOT NULL,
   PRIMARY KEY (`authorname`,`questionid`),
   KEY `questionid_idx` (`questionid`),
@@ -41,7 +41,7 @@ DROP TABLE IF EXISTS `poll`;
 /*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `poll` (
   `id` varchar(45) NOT NULL,
-  `name` varchar(45) NOT NULL,
+  `name` varchar(255) NOT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
@@ -55,7 +55,7 @@ DROP TABLE IF EXISTS `question`;
 /*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `question` (
   `id` varchar(45) NOT NULL,
-  `name` varchar(45) NOT NULL,
+  `name` varchar(255) NOT NULL,
   `pollid` varchar(45) NOT NULL,
   PRIMARY KEY (`id`),
   KEY `pollid_idx` (`pollid`),
@@ -72,4 +72,4 @@ CREATE TABLE `question` (
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2020-03-14 11:08:26
+-- Dump completed on 2020-03-15 22:46:53
