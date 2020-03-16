@@ -14,7 +14,7 @@ export default class PollComponent extends React.Component {
         let negative_votes = question.negativevotes;
         let vote_percent = positive_votes/(positive_votes+negative_votes);
         if(isNaN(vote_percent)) {
-            vote_percent = 1;
+            vote_percent = 0;
         }
         return  <p key={question.questionid}>{question.name + ": " + (vote_percent*100).toFixed(2) + "%"}</p>;
     }

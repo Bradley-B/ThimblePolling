@@ -53,7 +53,7 @@ app.post('/api/create/', function(req, res) {
 				});
 			});
 		}
-		return res.send(""+new_poll_id+"\n");
+		return res.send(JSON.stringify({pollid: new_poll_id})+"\n");
 	});
 
 });
