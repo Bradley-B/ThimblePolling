@@ -16,7 +16,8 @@ var db = mysql.createConnection({
 	//user: 'bradxdut_root',
 	user: 'root',
 	password: passwords.split('\n')[2].split(' ')[1],
-	database: 'polls'
+	database: 'polls',
+	//database: 'bradxdut_polls'
 });
 db.connect();
 
@@ -26,15 +27,7 @@ app.use(bodyParser.json());
 app.use(express.json());
 //app.use(cors());
 
-// ----------------------------------------- BEGIN CLIENT SIDE -------------------------------------------
-
-// app.use(express.static(path.join(__dirname, 'build')));
-//
-// app.get('', function (req, res) {
-// 	res.sendFile(path.join(__dirname, 'build', 'index.hmtl'))
-// });
-
-// ----------------------------------------- BEGIN SERVER SIDE -------------------------------------------
+app.use(express.static(path.join(__dirname, 'build')));
 
 app.post('/api/create/', function(req, res) {
 	//objective: create new poll and send the url back to the client
@@ -112,6 +105,10 @@ app.get('/api/get/:pollid', function(req, res) {
 			return res.send(JSON.stringify(resultObject)+"\n");
 		}
 	);
+});
+
+app.get('/*', function (req, res) {
+	res.sendFile(path.join(__dirname, 'build', 'index.html'))
 });
 
 app.put('/api/update', function(req, res) {
