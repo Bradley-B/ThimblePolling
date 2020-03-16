@@ -9,12 +9,13 @@ import {
 import './App.css';
 import PollComponent from "./PollComponent";
 import LoginComponent from "./LoginComponent";
+import CreatePollComponent from "./CreatePollComponent";
 
 const routes = [
     {
         path: "/",
         exact: true,
-        main: () => <Home />
+        main: () => <CreatePollComponent />
     },
     {
         path: "/about",
@@ -59,10 +60,6 @@ function App() {
             </Router>
         </div>
     );
-}
-
-function Home() {
-    return <h2>Home</h2>;
 }
 
 function About() {
