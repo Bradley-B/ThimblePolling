@@ -17,7 +17,8 @@ var db = mysql.createConnection({
 	user: 'root',
 	password: passwords.split('\n')[2].split(' ')[1],
 	database: 'polls',
-	//database: 'bradxdut_polls'
+	//database: 'bradxdut_polls',
+	charset: 'utf8mb4'
 });
 db.connect();
 
