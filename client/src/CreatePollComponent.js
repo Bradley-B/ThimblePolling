@@ -8,6 +8,7 @@ export default class CreatePollComponent extends React.Component {
         this.handleSubmit = this.handleSubmit.bind(this);
         this.addQuestion = this.addQuestion.bind(this);
         this.removeQuestion = this.removeQuestion.bind(this);
+        this.handleKeyPress = this.handleKeyPress.bind(this);
     }
 
     addQuestion() {
@@ -26,9 +27,22 @@ export default class CreatePollComponent extends React.Component {
         this.setState({number_of_questions: this.state.number_of_questions - 1, questions: new_questions});
     }
 
+    handleKeyPress(event) {
+        if(event.which === 13) { //enter key pressed
+            event.preventDefault();
+            if(String(event.target.id) === String(this.state.number_of_questions - 1)) {
+                this.addQuestion();
+            }
+        }
+    }
+
     handleChange(event) {
         const event_id = event.target.id;
         const event_value = event.target.value;
+
+        if(!this.state.buttons_enabled) {
+            return;
+        }
 
         if(event.target.id === "name") {
             this.setState({name: event.target.value});
@@ -61,8 +75,8 @@ export default class CreatePollComponent extends React.Component {
     render() {
         let jsx = [];
         for(let index = 0; index < this.state.number_of_questions ; index++) {
-            jsx.push(<input key={index} type={"text"} id={index} value={this.state.questions[index]} required={true}
-                            placeholder={"Question " + (index+1) + " Name"} onChange={this.handleChange}/>);
+            jsx.push(<input key={index} type={"text"} id={index} value={this.state.questions[index]} required={true} onKeyPress={this.handleKeyPress}
+                            placeholder={"Option " + (index+1) + " Name"} onChange={this.handleChange}/>);
             jsx.push(<br key={index+"br"}/>);
         }
 
@@ -74,7 +88,8 @@ export default class CreatePollComponent extends React.Component {
         return <div>
             <form className={"create-form"} onSubmit={this.handleSubmit}>
                 <h2>Create Poll</h2>
-                <input type={"text"} placeholder={"Poll Name"} id={"name"} required={true} value={this.state.name} onChange={this.handleChange}/>
+                <input type={"text"} placeholder={"Poll Name"} id={"name"} required={true} value={this.state.name} onChange={this.handleChange}
+                       onKeyPress={this.handleKeyPress} />
                 <br/>
                 {jsx}
                 <button type={"button"} onClick={this.addQuestion} disabled={!this.state.buttons_enabled}>Add Question</button>
