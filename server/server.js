@@ -41,7 +41,7 @@ app.post('/api/create/', function(req, res) {
 	const new_poll_id = randomString();
 
 	//create row in poll table
-	db.query("INSERT INTO poll (id, name) VALUES ('" + new_poll_id + "', '" + req.body.name + "')", (err, result) => {
+	db.query("INSERT INTO poll (id, name) VALUES ('" + new_poll_id + "', " + db.escape(req.body.name) + ")", (err, result) => {
 		if(err) {
 			console.log("DB ERROR: ", err);
 		} else {
@@ -49,7 +49,7 @@ app.post('/api/create/', function(req, res) {
 
 			//create a row for each question in the question table
 			req.body.questions.forEach(question_name => {
-				db.query("INSERT INTO question (id, name, pollid) VALUES ('" + randomString() + "', '" + question_name + "', '" + new_poll_id + "')", (err, result) => {
+				db.query("INSERT INTO question (id, name, pollid) VALUES ('" + randomString() + "', " + db.escape(question_name) + ", '" + new_poll_id + "')", (err, result) => {
 					if(err) {
 						console.log("DB ERROR: ", err);
 					} else {
@@ -68,20 +68,20 @@ app.get('/api/get/:pollid', function(req, res) {
 	let resultObject = {exists: true, pollid: req.params.pollid, totalvotes: 0, questions: []};
 	step(
 		function start() {
-			db.query("SELECT (name) FROM poll WHERE id='" + req.params.pollid + "'", this);
+			db.query("SELECT (name) FROM poll WHERE id=" + db.escape(req.params.pollid), this);
 		},
 		function checkPollName(error, rows) {
 			if(rows.length === 0) { //poll id does not exist
 				return res.send(JSON.stringify({exists: false})+"\n");
 			}
 			resultObject.name = rows[0].name;
-			db.query("SELECT * FROM question WHERE pollid='" + req.params.pollid + "'", this); //query questions in the poll
+			db.query("SELECT * FROM question WHERE pollid=" + db.escape(req.params.pollid), this); //query questions in the poll
 		},
 		function processQuestions(error, rows) {
 			let group = this.group();
 			rows.forEach((question) => { //query answers to all questions in the poll
 				resultObject.questions.push({name: question.name, questionid: question.id});
-				db.query("SELECT * FROM answer WHERE questionid='" + question.id + "'", group());
+				db.query("SELECT * FROM answer WHERE questionid=" + db.escape(question.id), group());
 			});
 		},
 		function processAnswers(err, rows) {
@@ -120,8 +120,8 @@ app.put('/api/update', function(req, res) {
 		return res.sendStatus(400);
 	}
 
-	db.query("INSERT INTO answer (value, authorname, questionid) VALUES ('" + req.body.value + "', '" +
-		req.body.authorname + "', '" + req.body.questionid + "') ON DUPLICATE KEY UPDATE value='"+ req.body.value +"'", (err, result) => {
+	db.query("INSERT INTO answer (value, authorname, questionid) VALUES (" + db.escape(req.body.value) + ", " +
+		db.escape(req.body.authorname) + ", " + db.escape(req.body.questionid) + ") ON DUPLICATE KEY UPDATE value="+ db.escape(req.body.value), (err, result) => {
 
 		if(err) {
 			console.log("DB ERROR: " + err);
