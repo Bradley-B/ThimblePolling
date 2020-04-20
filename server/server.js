@@ -4,7 +4,6 @@ const mysql = require('./database.js');
 const path = require('path');
 //const yelp = require('yelp-fusion');
 const bodyParser = require('body-parser'); // set up bodyParser with json support
-const step = require('./step');
 
 const passwords = fs.readFileSync("./tokens.txt").toString('utf-8');
 //const yelp_api_key = passwords.split('\n')[1].split(' ')[1];
@@ -21,12 +20,8 @@ var db = new mysql({
 	charset: 'utf8mb4'
 });
 
-//var cors = require('cors');
-
 app.use(bodyParser.json());
 app.use(express.json());
-//app.use(cors());
-
 app.use(express.static(path.join(__dirname, 'build')));
 
 app.post('/api/create/', function(req, res) {
@@ -41,7 +36,7 @@ app.post('/api/create/', function(req, res) {
 	const new_poll_id = randomString();
 
 	//create row in poll table
-	db.query(`INSERT INTO poll (id, name) VALUES ('${new_poll_id}', ${db.escape(req.body.name)})`).then(result => {
+	db.query(`INSERT INTO poll (id, name) VALUES ('${new_poll_id}', ${db.escape(req.body.name)})`).then(() => {
 		console.log("created row in table for poll with id: " + new_poll_id);
 
 		let queries = req.body.questions.map(question_name => {
@@ -50,8 +45,8 @@ app.post('/api/create/', function(req, res) {
 		return Promise.all(queries);
 	}).catch(err => {
 		console.log("DB ERROR: ", err);
-	}).finally(result => {
-		return res.send(JSON.stringify({pollid: new_poll_id})+"\n");
+	}).finally(() => {
+		res.send(JSON.stringify({pollid: new_poll_id})+"\n");
 	});
 
 });
@@ -59,45 +54,40 @@ app.post('/api/create/', function(req, res) {
 app.get('/api/get/:pollid', function(req, res) {
 	//objective: get all the questions in a poll, the answers to the questions in the poll, and send them back to the client
 	let resultObject = {exists: true, pollid: req.params.pollid, totalvotes: 0, questions: []};
-	step(
-		function start() {
-			db.query(`SELECT (name) FROM poll WHERE id=${db.escape(req.params.pollid)}`, this);
-		},
-		function checkPollName(error, rows) {
-			if(rows.length === 0) { //poll id does not exist
-				return res.send(JSON.stringify({exists: false})+"\n");
-			}
-			resultObject.name = rows[0].name;
-			db.query(`SELECT * FROM question WHERE pollid=${db.escape(req.params.pollid)}`, this); //query questions in the poll
-		},
-		function processQuestions(error, rows) {
-			let group = this.group();
-			rows.forEach((question) => { //query answers to all questions in the poll
-				resultObject.questions.push({name: question.name, questionid: question.id});
-				db.query(`SELECT * FROM answer WHERE questionid=${db.escape(question.id)}`, group());
-			});
-		},
-		function processAnswers(err, rows) {
-			if(rows === undefined) {
-				return;
-			}
-			rows.forEach((question, qindex) => {
-				let positivevotes = 0;
-				let negativevotes = 0;
-				question.forEach((answer) => {
-					if(answer.value === "YES") {
-						positivevotes++;
-					} else if(answer.value === "NO") {
-						negativevotes++;
-					}
-				});
-				resultObject.totalvotes += positivevotes + negativevotes;
-				resultObject.questions[qindex].positivevotes = positivevotes;
-				resultObject.questions[qindex].negativevotes = negativevotes;
-			});
-			return res.send(JSON.stringify(resultObject)+"\n");
+	let pollid = db.escape(req.params.pollid);
+
+	db.query(`SELECT (name) FROM poll WHERE id=${pollid}`).then(rows => { //check poll exists, then query questions in the poll
+		if(rows.length === 0) { //poll id does not exist
+			res.send(JSON.stringify({exists: false})+"\n");
+			throw `poll id "${req.params.pollid}" does not exist`;
 		}
-	);
+		resultObject.name = rows[0].name;
+		return db.query(`SELECT * FROM question WHERE pollid=${pollid}`);
+
+	}).then((rows) => { //query answers to all questions in the poll
+		let promises = [];
+		rows.forEach((question) => {
+			resultObject.questions.push({name: question.name, questionid: question.id, positivevotes: 0, negativevotes: 0});
+			promises.push(db.query(`SELECT * FROM answer WHERE questionid=${db.escape(question.id)}`));
+		});
+		return Promise.all(promises);
+
+	}).then(rows => { //process answers
+		rows.forEach((question, qindex) => {
+			question.forEach((answer) => {
+				if(answer.value === "YES") {
+					resultObject.questions[qindex].positivevotes++;
+				} else if(answer.value === "NO") {
+					resultObject.questions[qindex].negativevotes++;
+				}
+				resultObject.totalvotes++;
+			});
+		});
+		res.send(JSON.stringify(resultObject)+"\n");
+
+	}).catch((err) => {
+		console.log("ERROR: ", err)
+	});
 });
 
 app.get('/*', function (req, res) {
@@ -114,7 +104,7 @@ app.put('/api/update', function(req, res) {
 	}
 
 	db.query(`INSERT INTO answer (value, authorname, questionid) VALUES (${db.escape(req.body.value)},
-		${db.escape(req.body.authorname)}, ${db.escape(req.body.questionid)}) ON DUPLICATE KEY UPDATE value=${db.escape(req.body.value)}`, (err, result) => {
+		${db.escape(req.body.authorname)}, ${db.escape(req.body.questionid)}) ON DUPLICATE KEY UPDATE value=${db.escape(req.body.value)}`, (err) => {
 
 		if(err) {
 			console.log("DB ERROR: " + err);
