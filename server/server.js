@@ -1,6 +1,6 @@
 const express = require('express');
 const fs = require('fs');
-const mysql = require('mysql');
+const mysql = require('./database.js');
 const path = require('path');
 //const yelp = require('yelp-fusion');
 const bodyParser = require('body-parser'); // set up bodyParser with json support
@@ -11,7 +11,7 @@ const passwords = fs.readFileSync("./tokens.txt").toString('utf-8');
 
 //const yelp_client = yelp.client(yelp_api_key);
 const app = express();
-var db = mysql.createConnection({
+var db = new mysql({
 	host: 'localhost',
 	//user: 'bradxdut_root',
 	user: 'root',
@@ -20,7 +20,6 @@ var db = mysql.createConnection({
 	//database: 'bradxdut_polls',
 	charset: 'utf8mb4'
 });
-db.connect();
 
 //var cors = require('cors');
 
@@ -42,23 +41,16 @@ app.post('/api/create/', function(req, res) {
 	const new_poll_id = randomString();
 
 	//create row in poll table
-	db.query(`INSERT INTO poll (id, name) VALUES (${new_poll_id}, ${db.escape(req.body.name)})`, (err, result) => {
-		if(err) {
-			console.log("DB ERROR: ", err);
-		} else {
-			console.log("created row in table for poll with id: " + new_poll_id);
+	db.query(`INSERT INTO poll (id, name) VALUES ('${new_poll_id}', ${db.escape(req.body.name)})`).then(result => {
+		console.log("created row in table for poll with id: " + new_poll_id);
 
-			//create a row for each question in the question table
-			req.body.questions.forEach(question_name => {
-				db.query(`INSERT INTO question (id, name, pollid) VALUES (${randomString()}, ${db.escape(question_name)}, ${new_poll_id})`, (err, result) => {
-					if(err) {
-						console.log("DB ERROR: ", err);
-					} else {
-						console.log("created row in table for question with name: " +question_name);
-					}
-				});
-			});
-		}
+		let queries = req.body.questions.map(question_name => {
+			db.query(`INSERT INTO question (id, name, pollid) VALUES ('${randomString()}', ${db.escape(question_name)}, '${new_poll_id}')`);
+		});
+		return Promise.all(queries);
+	}).catch(err => {
+		console.log("DB ERROR: ", err);
+	}).finally(result => {
 		return res.send(JSON.stringify({pollid: new_poll_id})+"\n");
 	});
 

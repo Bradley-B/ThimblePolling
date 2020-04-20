@@ -1,8 +1,9 @@
 const mysql = require('mysql');
 
-export class Database {
+module.exports = class Database {
     constructor( config ) {
         this.db = mysql.createConnection( config );
+        this.db.connect();
     }
     query( sql, args ) {
         return new Promise( ( resolve, reject ) => {
@@ -22,4 +23,7 @@ export class Database {
             } );
         } );
     }
-}
+    escape(value) {
+        return this.db.escape(value);
+    }
+};
