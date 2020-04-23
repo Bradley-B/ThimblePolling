@@ -1,7 +1,14 @@
 const mysql = require('mysql');
 
 module.exports = class Database {
-    constructor( config ) {
+    constructor(password) {
+        let config = {
+            host: 'localhost',
+            user: process.env.DB_USER || 'root',
+            password: password,
+            database: process.env.DB_NAME || 'polls',
+            charset: 'utf8mb4'
+        };
         this.db = mysql.createConnection( config );
         this.db.connect();
     }

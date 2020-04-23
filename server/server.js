@@ -10,15 +10,7 @@ const passwords = fs.readFileSync("./tokens.txt").toString('utf-8');
 
 //const yelp_client = yelp.client(yelp_api_key);
 const app = express();
-var db = new mysql({
-	host: 'localhost',
-	//user: 'bradxdut_root',
-	user: 'root',
-	password: passwords.split('\n')[2].split(' ')[1],
-	database: 'polls',
-	//database: 'bradxdut_polls',
-	charset: 'utf8mb4'
-});
+let db = new mysql(passwords.split('\n')[2].split(' ')[1]);
 
 app.use(bodyParser.json());
 app.use(express.json());
