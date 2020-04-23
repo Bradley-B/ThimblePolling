@@ -2,6 +2,7 @@ const express = require('express');
 const fs = require('fs');
 const mysql = require('./database.js');
 const path = require('path');
+const tools = require('./tools.js');
 //const yelp = require('yelp-fusion');
 const bodyParser = require('body-parser'); // set up bodyParser with json support
 
@@ -25,20 +26,11 @@ app.post('/api/create/', function(req, res) {
 		return res.sendStatus(400);
 	}
 
-	const new_poll_id = randomString();
-
-	//create row in poll table
-	db.query(`INSERT INTO poll (id, name) VALUES ('${new_poll_id}', ${db.escape(req.body.name)})`).then(() => {
-		console.log("created row in table for poll with id: " + new_poll_id);
-
-		let queries = req.body.questions.map(question_name => {
-			db.query(`INSERT INTO question (id, name, pollid) VALUES ('${randomString()}', ${db.escape(question_name)}, '${new_poll_id}')`);
-		});
-		return Promise.all(queries);
-	}).catch(err => {
+	const newPollId = tools.randomString();
+	db.createPoll(newPollId, req.body.name, req.body.questions).catch((err)=>{
 		console.log("DB ERROR: ", err);
 	}).finally(() => {
-		res.send(JSON.stringify({pollid: new_poll_id})+"\n");
+		res.send(JSON.stringify({pollid: newPollId})+"\n");
 	});
 
 });
@@ -128,14 +120,6 @@ app.get('/api/test', function(req, res) {
 app.get('*', function(req, res){
 	res.status(404).send('404 Error');
 });
-
-function randomString() {
-	var length = 10;
-	var chars = '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ';
-	var result = '';
-	for (var i = length; i > 0; --i) result += chars[Math.floor(Math.random() * chars.length)];
-	return result;
-}
 
 app.listen(5679);
 console.log("started server on port 5679");
