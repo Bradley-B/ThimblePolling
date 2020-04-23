@@ -1,2 +1,2 @@
-scp -i ~/.ssh/id_rsa_webserver.pub server/server.js client/build.zip bradxdut@webserver:/home/bradxdut/bettervoting
+scp -i ~/.ssh/id_rsa_webserver.pub server/server.js server/database.js client/build.zip bradxdut@webserver:/home/bradxdut/bettervoting
 ssh bradxdut@webserver 'cd /home/bradxdut/bettervoting; rm -r build; unzip build.zip'
