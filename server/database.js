@@ -72,4 +72,9 @@ module.exports = class Database {
         return await Promise.all([positive, negative]);
     }
 
+    createOrUpdateAnswer(value, authorName, questionId) {
+        return this.query(`INSERT INTO answer (value, authorname, questionid) VALUES (${this.escape(value)},
+		${this.escape(authorName)}, ${this.escape(questionId)}) ON DUPLICATE KEY UPDATE value=${this.escape(value)}`);
+    }
+
 };

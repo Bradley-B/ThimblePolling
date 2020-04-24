@@ -75,16 +75,11 @@ app.put('/api/update', function(req, res) {
 		return res.sendStatus(400);
 	}
 
-	db.query(`INSERT INTO answer (value, authorname, questionid) VALUES (${db.escape(req.body.value)},
-		${db.escape(req.body.authorname)}, ${db.escape(req.body.questionid)}) ON DUPLICATE KEY UPDATE value=${db.escape(req.body.value)}`, (err) => {
-
-		if(err) {
-			console.log("DB ERROR: " + err);
-			return res.sendStatus(400);
-		} else {
-			console.log("created row in table for answer for question id: " + req.body.questionid);
-			return res.sendStatus(204);
-		}
+	db.createOrUpdateAnswer(req.body.value, req.body.authorname, req.body.questionid).then(()=>{
+		return res.sendStatus(204);
+	}).catch((err)=>{
+		console.log("DB ERROR: ", err);
+		return res.sendStatus(400);
 	});
 });
 
