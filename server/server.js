@@ -36,41 +36,29 @@ app.post('/api/create/', function(req, res) {
 });
 
 app.get('/api/get/:pollid', function(req, res) {
-	//objective: get all the questions in a poll, the answers to the questions in the poll, and send them back to the client
-	let resultObject = {exists: true, pollid: req.params.pollid, totalvotes: 0, questions: []};
-	let pollid = db.escape(req.params.pollid);
+	let pollId = db.escape(req.params.pollid);
+	let resultObject = {exists: true, pollid: pollId, totalvotes: 0, questions: []};
 
-	db.query(`SELECT (name) FROM poll WHERE id=${pollid}`).then(rows => { //check poll exists, then query questions in the poll
-		if(rows.length === 0) { //poll id does not exist
-			res.send(JSON.stringify({exists: false})+"\n");
-			throw `poll id "${req.params.pollid}" does not exist`;
-		}
-		resultObject.name = rows[0].name;
-		return db.query(`SELECT * FROM question WHERE pollid=${pollid}`);
-
-	}).then((rows) => { //query answers to all questions in the poll
-		let promises = [];
-		rows.forEach((question) => {
-			resultObject.questions.push({name: question.name, questionid: question.id, positivevotes: 0, negativevotes: 0});
-			promises.push(db.query(`SELECT * FROM answer WHERE questionid=${db.escape(question.id)}`));
+	db.getPollName(pollId).then((name)=>{
+		resultObject.name = name;
+		return db.getPollQuestions(pollId);
+	}).then((questions)=>{
+		let voteCounts = [];
+		questions.forEach((question)=>{
+			resultObject.questions.push({name: question.name, questionid: question.id});
+			voteCounts.push(db.getVoteCounts(question.id));
 		});
-		return Promise.all(promises);
-
-	}).then(rows => { //process answers
-		rows.forEach((question, qindex) => {
-			question.forEach((answer) => {
-				if(answer.value === "YES") {
-					resultObject.questions[qindex].positivevotes++;
-				} else if(answer.value === "NO") {
-					resultObject.questions[qindex].negativevotes++;
-				}
-				resultObject.totalvotes++;
-			});
+		return Promise.all(voteCounts);
+	}).then((questions)=>{
+		questions.forEach((arr, index) => {
+			resultObject.questions[index].positivevotes = arr[0];
+			resultObject.questions[index].negativevotes = arr[1];
+			resultObject.totalvotes += arr[0] + arr[1];
 		});
-		res.send(JSON.stringify(resultObject)+"\n");
-
-	}).catch((err) => {
-		console.log("ERROR: ", err)
+		return res.send(JSON.stringify(resultObject)+"\n");
+	}).catch((err)=>{
+		console.log("ERROR: ", err);
+		return res.send(JSON.stringify({exists: false})+"\n");
 	});
 });
 
@@ -101,7 +89,7 @@ app.put('/api/update', function(req, res) {
 });
 
 app.get('/api/test', function(req, res) {
-	return res.send(randomString());
+	return res.send(tools.randomString());
 	// let test_query = {
 	// 	location: 'Bridgewater, NJ'
 	// };

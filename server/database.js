@@ -48,4 +48,28 @@ module.exports = class Database {
             return Promise.all(queries);
         });
     }
+
+    getPollName(pollId) {
+        return this.query(`SELECT (name) FROM poll WHERE id=${pollId}`).then((polls) => {
+            if(polls.length === 0) {
+                throw `poll id "${pollId}" does not exist`;
+            }
+            return polls[0].name;
+        });
+    }
+
+    getPollQuestions(pollId) {
+        return this.query(`SELECT * FROM question WHERE pollid=${pollId}`);
+    }
+
+    async getVoteCounts(questionId) {
+        const negative = this.query(`SELECT * FROM answer WHERE questionid='${questionId}' AND value="NO"`).then(rows => {
+            return rows.length;
+        });
+        const positive = this.query(`SELECT * FROM answer WHERE questionid='${questionId}' AND value="YES"`).then(rows => {
+            return rows.length;
+        });
+        return await Promise.all([positive, negative]);
+    }
+
 };
