@@ -1,0 +1,77 @@
+* {
+    margin: 0;
+}
+
+body {
+    overflow: hidden;
+}
+
+.App {
+    --primary-background: #282c5b;
+    --secondary-background: #5c6199;
+    --primary-green: #41b853;
+    --primary-red: #f40058;
+    --primary-blue: #43bee5;
+    --primary-purple: #9c19cc;
+    --primary-orange: #efa500;
+
+    background-color: var(--primary-background);
+    width: 100vw;
+    height: 100vh;
+    font-family: 'PT Sans', sans-serif;
+
+}
+
+.title {
+    position: relative;
+    top: 50px;
+    color: var(--primary-orange);
+    font-weight: normal;
+    font-size: 4rem;
+}
+
+.fleck {
+    position: absolute;
+    background-color: var(--primary-green);
+    top: 10vh;
+    left: 40vw;
+    width: 10px;
+    height: 20px;
+    transform: rotate(10deg);
+}
+
+#sidebar {
+    z-index: 100;
+    position: fixed;
+    top: 0;
+    left: 75vw;
+    height: 100vh;
+    width: 20vw;
+    background-color: var(--secondary-background);
+    transform: rotate(-10deg);
+}
+
+#talk-bubble {
+    z-index: 1;
+    left: 20%;
+    top: 20vh;
+    width: 30rem;
+    min-height: 15rem;
+    max-height: 15rem;
+    background: var(--secondary-background);
+    position: relative;
+    -moz-border-radius: 10px;
+    -webkit-border-radius: 10px;
+    border-radius: 5px;
+}
+#talk-bubble:before {
+    content: "";
+    position: absolute;
+    right: 100%;
+    top: 30%;
+    width: 0;
+    height: 0;
+    border-top: 26px solid transparent;
+    border-right: 52px solid var(--secondary-background);
+    border-bottom: 26px solid transparent;
+}

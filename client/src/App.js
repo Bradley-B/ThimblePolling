@@ -7,15 +7,17 @@ import {
     useParams
 } from "react-router-dom";
 import './App.css';
+import './dev.css';
 import PollComponent from "./PollComponent";
 import LoginComponent from "./LoginComponent";
 import CreatePollComponent from "./CreatePollComponent";
+import DevComponent from "./DevComponent";
 
 const routes = [
     {
         path: "/",
         exact: true,
-        main: () => <CreatePollComponent />
+        main: () => <DevComponent />
     },
     {
         path: "/about",
@@ -33,15 +35,15 @@ function App() {
     return (
         <div className="App">
             <Router>
-                <div className="body">
+                {/*<div className="body">*/}
 
-                <header className="App-header">
-                    <p>Better Voting</p>
-                    <nav>
-                        <Link to="/">Create Poll</Link>
-                        <Link to="/about">About</Link>
-                    </nav>
-                </header>
+                {/*<header className="App-header">*/}
+                {/*    <p>Better Voting</p>*/}
+                {/*    <nav>*/}
+                {/*        <Link to="/">Create Poll</Link>*/}
+                {/*        <Link to="/about">About</Link>*/}
+                {/*    </nav>*/}
+                {/*</header>*/}
 
                 <Switch>
                     {routes.map((route, index) => (
@@ -55,7 +57,7 @@ function App() {
                 </Switch>
 
 
-                </div>
+                {/*</div>*/}
 
             </Router>
         </div>
