@@ -1,90 +1,86 @@
 import React from 'react';
 import logo from './icon.png';
+import './App.css';
 import {
     BrowserRouter as Router,
     Switch,
     Route,
-    Link,
     useParams
 } from "react-router-dom";
-import './App.css';
-import './dev.css';
-import PollComponent from "./PollComponent";
-import LoginComponent from "./LoginComponent";
-import CreatePollComponent from "./CreatePollComponent";
-import DevComponent from "./DevComponent";
-
-const routes = [
-    {
-        path: "/",
-        exact: true,
-        main: () => <DevComponent />
-    },
-    {
-        path: "/about",
-        exact: true,
-        main: () => <About />
-    },
-    {
-        path: "/:id",
-        exact: true,
-        main: () => <GetParams />
-    }
-];
 
 function App() {
     return (
         <div className="App">
             <img className="logo" src={logo} alt="logo"/>
-            <Router>
-                <Switch>
-                    {routes.map((route, index) => (
-                        <Route
-                            key={index}
-                            path={route.path}
-                            exact={route.exact}
-                            children={<route.main/>}
-                        />
-                    ))}
-                </Switch>
-
-            </Router>
+            <MainPage/>
         </div>
     );
 }
 
-function About() {
-    return <div>
-        <h2>About</h2>
-        <p>This website is an easy way to create polls. The yes/no format encourages approval voting, where people vote for all things they like, not just their favorite.</p>
-        <br/>
-        <p>Inspired by</p><a href={"https://www.youtube.com/watch?v=orybDrUj4vA"}>this CGP Grey video</a>
-    </div>;
+class MainPage extends React.Component {
+    colors = ["#f40058", "#43bee5", "#9c19cc", "#efa500" ,"#41b853"];
+
+    constructor(props) {
+        super(props);
+        this.state = {confetti: []};
+    }
+
+    componentDidMount() {
+        this.updateConfetti();
+        let intervalId = setInterval(()=>this.updateConfetti(), 20000);
+        this.setState({intervalId: intervalId});
+    }
+
+    componentWillUnmount() {
+        clearInterval(this.state.intervalId);
+    }
+
+    updateConfetti() {
+        let confetti = [];
+        for(let i=0;i<100;i+=2) {
+            let style = {
+                backgroundColor: this.colors[Math.floor(Math.random() * this.colors.length)],
+                top: i + "vh",
+                left: Math.floor(Math.random()*100) + "vw",
+                transform: `rotate(${Math.floor(Math.random()*60)-30}deg)`
+            };
+            confetti.push(<div key={i} className="confetti" style={style}/>)
+        }
+        this.setState({confetti: confetti});
+    }
+
+    render() {
+        let bubble = <svg id="talk-bubble-bubble" width="100" height="200" viewBox="0 0 100 100">
+            <polygon points="100,0 0,50 100,100" fill="black" />
+            <polygon points="100,2 3,50 100,98" fill="#5c6199" />
+        </svg>;
+
+        return <Router className={"App"}>
+            <Switch>
+                <Route path={"/"} exact={true}>
+                    <div className={"title-container"}><h1 className={"title"}>Create Poll</h1></div>
+                    <div>{this.state.confetti}</div>
+                    <div id={"talk-bubble"} />
+                    {bubble}
+                    <div id={"sidebar"} />
+                </Route>
+
+                <Route path={"/:id"} exact={true}>
+                    <div className={"title-container"}><h1 className={"title"}>Test</h1></div>
+                    <div>{this.state.confetti}</div>
+                    <div id={"talk-bubble"} />
+                    {bubble}
+                    <div id={"sidebar"} />
+                </Route>
+
+            </Switch>
+        </Router>;
+    }
 }
 
 function GetParams() {
     let {id} = useParams();
-    return <Poll id={id} />
-}
-
-class Poll extends React.Component {
-    constructor(props) {
-        super(props);
-        this.state = {logged_in: false};
-        this.handleLogin = this.handleLogin.bind(this);
-    }
-
-    handleLogin(name) {
-        this.setState({logged_in: true, name: name});
-    }
-
-    render() {
-        if(this.state.logged_in) {
-            return <PollComponent id={this.props.id} authorname={this.state.name}/>
-        } else {
-            return <LoginComponent callback={this.handleLogin}/>
-        }
-    }
+    // return <Poll id={id} />
 }
 
 export default App;

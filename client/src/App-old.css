@@ -1,0 +1,144 @@
+.App-link {
+  color: #61dafb;
+}
+
+.App-logo {
+  height: 40vmin;
+  pointer-events: none;
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .App-logo {
+    animation: App-logo-spin infinite 20s linear;
+  }
+}
+
+.App-header {
+  background-color: #282c34;
+  min-height: 10vh;
+  display: flex;
+  flex-direction: row;
+  align-items: flex-start;
+  justify-content: flex-start;
+  font-size: calc(10px + 2vmin);
+  color: white;
+}
+
+.App-header p {
+  position: absolute;
+  left: 20vw;
+  margin: 0;
+}
+
+.App-header nav {
+  position: absolute;
+  right: 10vw;
+}
+
+.App-header nav a {
+  color: red;
+  padding-left: 1vw;
+  padding-right: 1vw;
+}
+
+.body {
+  min-height: 100vh;
+  max-height: 100vh;
+}
+
+.poll {
+  color: gray;
+  display: flex;
+  flex-wrap: wrap;
+  flex-direction: row;
+  justify-content: center;
+}
+
+.poll-results {
+  padding-top: 1rem;
+}
+
+.poll span {
+  padding-left: 8rem;
+  padding-right: 8rem;
+}
+
+.poll-question {
+  display: flex;
+  flex-direction: row;
+  padding: 0;
+  margin-top: 15px;
+  margin-bottom: 15px;
+}
+
+.poll-question li {
+  display: inline-block;
+  margin-left: 5px;
+  margin-right: 5px;
+  width: 25vw;
+  max-width: 8rem;
+  height: 3rem;
+  position: relative;
+}
+
+.poll-question label, .poll-question input {
+  display: block;
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+}
+
+.poll-question input[type="radio"] {
+  opacity: 0.011;
+  z-index: 100;
+}
+
+.poll-question input[type="radio"]:checked + label#no {
+  background: rgba(255, 0, 0, 0.5);
+}
+
+.poll-question input[type="radio"]:checked + label#yes {
+  background: rgba(0, 255, 0, 0.5);
+}
+
+.poll-question label {
+  padding: 5px;
+  border: 1px solid #CCC;
+  cursor: pointer;
+  z-index: 90;
+}
+
+.poll-question label#no:hover {
+  background: rgba(255, 0, 0, 0.15);
+}
+
+.poll-question label#yes:hover {
+  background: rgba(0, 255, 0, 0.15);
+}
+
+.login-form input[type="text"], .create-form input[type="text"]{
+  width: 250px;
+  padding: 10px;
+  border: none;
+  border-radius: 5px;
+  background-color: rgba(0, 0, 0, 0.05);
+  margin: 0 0 25px 0;
+}
+
+.login-form input[type="submit"], .create-form input[type="submit"], .create-form button {
+  width: 8rem;
+  height: 3rem;
+  border: 1px solid #CCC;
+  color: black;
+  background-color: white;
+  cursor: pointer;
+  border-radius: 5px;
+}
+
+.create-form button {
+  margin-bottom: 10px;
+  margin-left: 10px;
+  margin-right: 10px;
+}
