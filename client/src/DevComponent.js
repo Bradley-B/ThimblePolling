@@ -9,7 +9,8 @@ export default class DevComponent extends React.Component {
     }
 
     componentDidMount() {
-        let intervalId = setInterval(()=>this.updateConfetti(), 1000);
+        this.updateConfetti();
+        let intervalId = setInterval(()=>this.updateConfetti(), 20000);
         this.setState({intervalId: intervalId});
     }
 
@@ -22,7 +23,6 @@ export default class DevComponent extends React.Component {
         for(let i=0;i<100;i+=2) {
             let style = {
                 backgroundColor: this.colors[Math.floor(Math.random() * this.colors.length)],
-                // top: Math.floor(Math.random()*100) + 20 + "vh",
                 top: i + "vh",
                 left: Math.floor(Math.random()*100) + "vw",
                 transform: `rotate(${Math.floor(Math.random()*60)-30}deg)`
@@ -33,6 +33,12 @@ export default class DevComponent extends React.Component {
     }
 
     render() {
+//  clip-path: polygon(100% 0, 0 50%, 100% 100%);
+
+        let bubble = <svg id="talk-bubble-bubble" width="100" height="100">
+            <polygon points="100,0 0,50 100,100" fill="black" />
+            <polygon points="100,2 3,50 100,98" fill="#5c6199" />
+        </svg>;
 
         return <div>
             <div className={"title-container"}>
@@ -40,6 +46,7 @@ export default class DevComponent extends React.Component {
             </div>
             {this.state.confetti}
             <div id={"talk-bubble"}/>
+            {bubble}
             <div id={"sidebar"}/>
         </div>;
     }
