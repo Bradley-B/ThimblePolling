@@ -35,15 +35,6 @@ function App() {
     return (
         <div className="App">
             <Router>
-                {/*<div className="body">*/}
-
-                {/*<header className="App-header">*/}
-                {/*    <p>Better Voting</p>*/}
-                {/*    <nav>*/}
-                {/*        <Link to="/">Create Poll</Link>*/}
-                {/*        <Link to="/about">About</Link>*/}
-                {/*    </nav>*/}
-                {/*</header>*/}
 
                 <Switch>
                     {routes.map((route, index) => (
@@ -55,9 +46,6 @@ function App() {
                         />
                     ))}
                 </Switch>
-
-
-                {/*</div>*/}
 
             </Router>
         </div>

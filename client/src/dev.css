@@ -22,7 +22,16 @@ body {
 
 }
 
+.title-container {
+    width: 100vw;
+    display: flex;
+    justify-content: center;
+}
+
 .title {
+    background-color: var(--primary-background);
+    max-width: 50vw;
+    z-index: 2;
     position: relative;
     top: 50px;
     color: var(--primary-orange);
@@ -30,18 +39,13 @@ body {
     font-size: 4rem;
 }
 
-.fleck {
+.confetti {
     position: absolute;
-    background-color: var(--primary-green);
-    top: 10vh;
-    left: 40vw;
     width: 10px;
     height: 20px;
-    transform: rotate(10deg);
 }
 
 #sidebar {
-    z-index: 100;
     position: fixed;
     top: 0;
     left: 75vw;
@@ -52,7 +56,6 @@ body {
 }
 
 #talk-bubble {
-    z-index: 1;
     left: 20%;
     top: 20vh;
     width: 30rem;
