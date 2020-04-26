@@ -86,6 +86,8 @@ svg {
 
 #talk-bubble-bubble {
     position: relative;
-    left: calc(20% - 98px);
-    top: -50px;
+    left: calc(20% - (40px + 6vw));
+    top: calc(-8vw - 40px);
+    height: auto;
+    width: calc(40px + 7vw);
 }
