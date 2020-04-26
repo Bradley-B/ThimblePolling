@@ -1,4 +1,5 @@
 import React from 'react';
+import logo from './icon.png';
 import {
     BrowserRouter as Router,
     Switch,
@@ -34,8 +35,8 @@ const routes = [
 function App() {
     return (
         <div className="App">
+            <img className="logo" src={logo} alt="logo"/>
             <Router>
-
                 <Switch>
                     {routes.map((route, index) => (
                         <Route

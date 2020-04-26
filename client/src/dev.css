@@ -11,6 +11,15 @@ svg {
     width: 100%;
 }
 
+.logo {
+    z-index: 2;
+    position: absolute;
+    margin-left: 30px;
+    margin-top: 30px;
+    width: 15vw;
+    background-color: var(--primary-background);
+}
+
 .App {
     --primary-background: #1c2047;
     --secondary-background: #5c6199;
@@ -31,6 +40,7 @@ svg {
     width: 100vw;
     display: flex;
     justify-content: center;
+    text-align: center;
 }
 
 .title {
@@ -41,7 +51,7 @@ svg {
     top: 50px;
     color: var(--primary-orange);
     font-weight: normal;
-    font-size: calc(2rem + 4vmin);
+    font-size: calc(10px + 8vmin);
 }
 
 .confetti {
