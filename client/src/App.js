@@ -1,6 +1,7 @@
 import React from 'react';
 import logo from './icon.png';
 import './App.css';
+import CreatePoll from './CreatePoll.js';
 import {
     BrowserRouter as Router,
     Switch,
@@ -60,8 +61,8 @@ class MainPage extends React.Component {
                 <Route path={"/"} exact={true}>
                     <div className={"title-container"}><h1 className={"title"}>Create Poll</h1></div>
                     <div>{this.state.confetti}</div>
-                    <div id={"talk-bubble"} />
-                    {bubble}
+                    <div id={"talk-bubble"}><CreatePoll/></div>
+                    {/*{bubble}*/}
                     <div id={"sidebar"} />
                 </Route>
 

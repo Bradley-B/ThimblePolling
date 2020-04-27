@@ -17,6 +17,7 @@ svg {
     margin-left: 30px;
     margin-top: 30px;
     width: 15vw;
+    min-width: 100px;
     background-color: var(--primary-background);
 }
 
@@ -75,19 +76,103 @@ svg {
 #talk-bubble {
     border: solid black 2px;
     left: 20%;
-    top: 20vh;
+    top: 30vh;
     max-width: 35rem;
     width: 40vw;
-    min-height: 40vh;
+    height: 40vh;
     background: var(--secondary-background);
-    position: relative;
+    position: fixed;
     border-radius: 5px;
+    /*overflow: auto;*/
 }
 
 #talk-bubble-bubble {
     position: relative;
-    left: calc(20% - (40px + 6vw));
-    top: calc(-8vw - 40px);
+    left: 10.2vw;
+    top: 25vh;
     height: auto;
-    width: calc(40px + 7vw);
+    width: 10vw;
+}
+
+.create-poll-form {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    height: 100%;
+}
+
+.create-poll-form input[type="checkbox"] {
+    width: 50px;
+    min-width: 30px;
+    min-height: 30px;
+    height: 50px;
+    margin-left: 20px;
+    margin-top: 20px;
+}
+
+.create-poll-form input[type="text"] {
+    padding-left: 10px;
+    margin-left: 20px;
+    margin-top: 20px;
+    background-color: var(--secondary-background);
+    border: none;
+    border-bottom: solid var(--primary-background);
+    color: var(--primary-orange);
+    font-family: 'PT Sans', sans-serif;
+    font-size: 2rem;
+}
+
+.create-poll-form input[type="text"]::placeholder {
+    color: #edc366;
+}
+
+.create-poll-items {
+    overflow: auto;
+}
+
+.create-poll-item {
+    display: flex;
+    flex-direction: row;
+}
+
+.create-poll-buttons {
+    margin-top: 10px;
+    margin-bottom: 10px;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-evenly;
+    width: 100%;
+}
+
+.create-poll-buttons button, .create-poll-buttons input[type="submit"] {
+    background-color: transparent;
+    color: white;
+    font-family: 'PT Sans', sans-serif;
+    font-size: 1rem;
+    padding: 10px;
+    border-radius: 10px;
+    cursor: pointer;
+    width: 30%;
+}
+
+.create-poll-buttons button#add {
+    border: 2px solid var(--primary-green);
+}
+
+.create-poll-buttons button#remove {
+    border: 2px solid var(--primary-red);
+}
+
+.create-poll-buttons input#submit {
+    border: 2px solid var(--primary-orange);
+}
+
+@media only screen and (max-width: 800px) {
+    #sidebar {
+        visibility: hidden;
+    }
+    #talk-bubble {
+        left: 10%;
+        width: 80%;
+    }
 }
