@@ -20,7 +20,7 @@ export default class Confetti extends React.Component {
 
     updateConfetti() {
         let confetti = [];
-        for(let i=0;i<100;i+=2) {
+        for(let i=0;i<150;i+=2) {
             let style = {
                 backgroundColor: this.colors[Math.floor(Math.random() * this.colors.length)],
                 top: i + "vh",

@@ -1,6 +1,6 @@
 import React from "react";
 
-export default class CreatePoll extends React.Component {
+export default class CreatePollBubble extends React.Component {
     constructor(props) {
         super(props);
         this.state = {items: [this.pollItemObject(true, '')]};

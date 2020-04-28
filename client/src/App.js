@@ -2,7 +2,7 @@ import React from 'react';
 import logo from './icon.png';
 import './App.css';
 import Confetti from './Confetti.js';
-import CreatePoll from './CreatePoll.js';
+import CreatePollBubble from './CreatePollBubble.js';
 import {
     BrowserRouter as Router,
     Switch,
@@ -32,7 +32,7 @@ class MainPage extends React.Component {
                 <Route path={"/"} exact={true}>
                     <div className={"title-container"}><h1 className={"title"}>Create Poll</h1></div>
                     <div><Confetti/></div>
-                    <div id={"talk-bubble"}><CreatePoll/></div>
+                    <div id={"talk-bubble"}><CreatePollBubble/></div>
                     {/*{bubble}*/}
                     <div id={"sidebar"} />
                 </Route>
