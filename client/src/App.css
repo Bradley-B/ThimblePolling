@@ -70,23 +70,23 @@ svg {
 #sidebar {
     position: fixed;
     top: 10vh;
-    left: 75vw;
+    left: 72vw;
     height: 80vh;
-    width: 20vw;
+    width: 25vw;
     max-width: 275px;
     background-color: var(--secondary-background);
     border: solid 2px black;
-    transform: rotate(-8deg);
+    transform: rotate(-6deg);
     animation: intro-sidebar 0.4s ease-in;
 }
 
 #talk-bubble {
     border: solid black 2px;
-    left: 20%;
-    top: 30vh;
+    left: 15vw;
+    top: 29vh;
     max-width: 35rem;
     width: 40vw;
-    height: 40vh;
+    height: calc(27vh + 150px);
     background: var(--secondary-background);
     position: absolute;
     border-radius: 5px;
@@ -109,10 +109,10 @@ svg {
 }
 
 .create-poll-form input[type="checkbox"] {
-    width: 50px;
-    min-width: 30px;
-    min-height: 30px;
-    height: 50px;
+    min-width: 40px;
+    min-height: 40px;
+    width: 5vw;
+    height: 5vw;
     margin-left: 20px;
     margin-top: 20px;
 }
@@ -121,20 +121,18 @@ svg {
     padding-left: 10px;
     margin-left: 20px;
     margin-top: 20px;
+    margin-right: 20px;
     background-color: var(--secondary-background);
     border: none;
     border-bottom: solid var(--primary-background);
     color: var(--primary-orange);
     font-family: 'PT Sans', sans-serif;
-    font-size: 2rem;
+    font-size: 200%;
+    width: 100%;
 }
 
 .create-poll-form input[type="text"]::placeholder {
     color: #edc366;
-}
-
-.create-poll-items {
-    overflow: auto;
 }
 
 .create-poll-item {
@@ -178,6 +176,55 @@ svg {
     border: 2px solid var(--primary-orange);
 }
 
+.sidebar-content {
+    /*transform: rotate(5deg);*/
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    height: 100%;
+    font-size: 1.5rem;
+}
+
+.sidebar-content h2 {
+    color: var(--primary-orange);
+    font-size: 2.5vw;
+    margin-top: 10px;
+}
+
+.create-poll-sidebar-form {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    height: 50%;
+    width: 100%;
+    justify-content: center;
+}
+
+.create-poll-sidebar-form label {
+    color: black;
+    margin-top: 40px;
+}
+
+.create-poll-sidebar-form input[type="checkbox"] {
+    width: 50px;
+    height: 50px;
+}
+
+
+.create-poll-sidebar-form input[type="text"] {
+    background-color: transparent;
+    border: none;
+    border-bottom: solid var(--primary-background);
+    color: var(--primary-orange);
+    font-family: 'PT Sans', sans-serif;
+    font-size: inherit;
+    width: 90%;
+}
+
+.create-poll-sidebar-form input[type="text"]::placeholder {
+    color: #edc366;
+}
+
 @keyframes intro-bubble {
     from {opacity: 0.25; transform: scale(0.75);}
     to {opacity: 1; transform: scale(1);}
@@ -185,17 +232,16 @@ svg {
 
 @keyframes intro-sidebar {
     from {opacity: 0.25; transform: scale(0.75);}
-    to {opacity: 1; transform: scale(1) rotate(-8deg);}
+    to {opacity: 1; transform: scale(1) rotate(-6deg);}
 }
 
 @media only screen and (max-width: 800px) {
     body {
         overflow-y: auto;
     }
-
     #sidebar {
         position: absolute;
-        top: 80vh;
+        top: calc(40vh + calc(27vh + 150px));
         left: 20%;
         width: 60vw;
         max-width: none;
@@ -203,5 +249,11 @@ svg {
     #talk-bubble {
         left: 10%;
         width: 80%;
+    }
+    .sidebar-content h2 {
+        font-size: 5vw;
+    }
+    .create-poll-sidebar-form {
+        font-size: 6vw;
     }
 }

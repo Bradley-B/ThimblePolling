@@ -1,6 +1,7 @@
 import React from 'react';
 import Confetti from "./Confetti";
 import CreatePollBubble from "./CreatePollBubble";
+import CreatePollSidebar from "./CreatePollSidebar";
 
 export default class CreatePollPage extends React.Component {
     constructor(props) {
@@ -22,7 +23,7 @@ export default class CreatePollPage extends React.Component {
             <div className={"title-container"}><h1 className={"title"}>Create Poll</h1></div>
             <div><Confetti/></div>
             <div id={"talk-bubble"}><CreatePollBubble onSubmit={this.onSubmit} onBubbleStateChange={this.onBubbleStateChange} pollItems={this.state.pollItems}/></div>
-            <div id={"sidebar"} />
+            <div id={"sidebar"}><CreatePollSidebar /></div>
         </>;
     }
 }
