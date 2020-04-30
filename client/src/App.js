@@ -9,6 +9,7 @@ import {
     Route,
     useParams
 } from "react-router-dom";
+import CreatePollPage from "./CreatePollPage";
 
 function App() {
     return (
@@ -30,11 +31,7 @@ class MainPage extends React.Component {
         return <Router className={"App"}>
             <Switch>
                 <Route path={"/"} exact={true}>
-                    <div className={"title-container"}><h1 className={"title"}>Create Poll</h1></div>
-                    <div><Confetti/></div>
-                    <div id={"talk-bubble"}><CreatePollBubble/></div>
-                    {/*{bubble}*/}
-                    <div id={"sidebar"} />
+                    <CreatePollPage />
                 </Route>
 
                 <Route path={"/:id"} exact={true}>
