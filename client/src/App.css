@@ -45,10 +45,10 @@ svg {
 
 .title {
     background-color: var(--primary-background);
-    max-width: 50vw;
+    max-width: 70vw;
     z-index: 2;
     position: relative;
-    top: 50px;
+    top: 10vh;
     color: var(--primary-orange);
     font-weight: normal;
     font-size: calc(10px + 8vmin);
@@ -223,6 +223,34 @@ svg {
 
 .create-poll-sidebar-form input[type="text"]::placeholder {
     color: #edc366;
+}
+
+.create-poll-bubble-content {
+    display: flex;
+    flex-direction: column;
+    text-align: center;
+    color: var(--primary-orange);
+    justify-content: center;
+    font-size: 4vw;
+    align-items: center;
+}
+
+.create-poll-bubble-content button {
+    background-color: transparent;
+    color: white;
+    font-family: 'PT Sans', sans-serif;
+    font-size: 1rem;
+    padding: 10px;
+    border-radius: 10px;
+    width: 30%;
+    border: 2px solid var(--primary-orange);
+    cursor: pointer;
+    margin-top: 20px;
+}
+
+.create-poll-bubble-content button:hover {
+    cursor: pointer;
+    transform: scale(1.1);
 }
 
 @keyframes intro-bubble {
