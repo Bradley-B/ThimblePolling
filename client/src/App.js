@@ -2,7 +2,6 @@ import React from 'react';
 import logo from './icon.png';
 import './App.css';
 import Confetti from './Confetti.js';
-import CreatePollBubble from './CreatePollBubble.js';
 import {
     BrowserRouter as Router,
     Switch,
@@ -10,6 +9,7 @@ import {
     useParams
 } from "react-router-dom";
 import CreatePollPage from "./CreatePollPage";
+import ViewPollPage from "./ViewPollPage";
 
 function App() {
     return (
@@ -35,11 +35,7 @@ class MainPage extends React.Component {
                 </Route>
 
                 <Route path={"/:id"} exact={true}>
-                    <div className={"title-container"}><h1 className={"title"}>Test</h1></div>
-                    <div><Confetti/></div>
-                    <div id={"talk-bubble"} />
-                    {bubble}
-                    <div id={"sidebar"} />
+                    <GetParams />
                 </Route>
 
             </Switch>
@@ -49,7 +45,7 @@ class MainPage extends React.Component {
 
 function GetParams() {
     let {id} = useParams();
-    // return <Poll id={id} />
+    return <ViewPollPage id={id} />
 }
 
 export default App;

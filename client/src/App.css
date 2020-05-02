@@ -258,6 +258,15 @@ svg {
     transform: scale(1.1);
 }
 
+.view-poll-bubble-content {
+    color: var(--primary-orange);
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    text-align: center;
+    font-size: 3vw;
+}
+
 @keyframes intro-bubble {
     from {opacity: 0.25; transform: scale(0.75);}
     to {opacity: 1; transform: scale(1);}
@@ -288,5 +297,8 @@ svg {
     }
     .create-poll-sidebar-form {
         font-size: 6vw;
+    }
+    .view-poll-bubble-content {
+
     }
 }
