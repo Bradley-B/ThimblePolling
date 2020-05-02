@@ -15,13 +15,14 @@ export default class ViewPollPage extends React.Component {
     constructor(props) {
         super(props);
         this.state = {pageState: ViewPollPage.PageStateValues.LOADING};
+        this.onLogin = this.onLogin.bind(this);
+        this.onLoginStateChange = this.onLoginStateChange.bind(this);
     }
 
     componentDidMount() {
         fetch("/api/get/"+this.props.id).then((response) => {
             return response.json();
         }).then((result)=>{
-            console.log(JSON.stringify(result));
             if(result.exists === false) {
                 this.setState({pageState: ViewPollPage.PageStateValues.NOT_FOUND_ERROR});
             } else {
@@ -30,19 +31,35 @@ export default class ViewPollPage extends React.Component {
         });
     }
 
+    onLoginStateChange(e) {
+        this.setState({username: e.target.value});
+    }
+
+    onLogin(e) {
+        e.preventDefault();
+        this.setState({pageState: ViewPollPage.PageStateValues.DISPLAY_POLL})
+    }
+
     render() {
-        let bubbleContent, sidebarContent, title = "Loading...";
+        let bubbleContent, sidebarContent, title;
 
         switch (this.state.pageState) {
+            default:
             case (ViewPollPage.PageStateValues.LOADING):
+                title = "Loading...";
                 bubbleContent = <h3>Loading Poll Information...</h3>;
                 break;
             case (ViewPollPage.PageStateValues.LOG_IN):
-                bubbleContent = <LogIn />;
+                title = "Log In";
+                bubbleContent = <LogIn username={this.state.username} onLogin={this.onLogin}/>;
                 break;
             case (ViewPollPage.PageStateValues.NOT_FOUND_ERROR):
                 title = "Not Found";
                 bubbleContent = <h3>Oops, we can't seem to find this poll. Please check the url and try again.</h3>;
+                break;
+            case (ViewPollPage.PageStateValues.DISPLAY_POLL):
+                title = this.state.pollName;
+                bubbleContent = <div/>;
                 break;
         }
 
@@ -55,6 +72,12 @@ export default class ViewPollPage extends React.Component {
     }
 }
 
-function LogIn() {
-    return null;
+function LogIn({username, onLogin}) {
+    return <>
+        <h3>Enter your name</h3>
+        <form className={"login-form"} onSubmit={onLogin}>
+            <input required value={username} placeholder="enter name here" id="username" name="username" type={"text"} />
+            <input type={"submit"} />
+        </form>
+    </>;
 }

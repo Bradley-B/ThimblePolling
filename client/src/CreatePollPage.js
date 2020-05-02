@@ -66,6 +66,7 @@ export default class CreatePollPage extends React.Component {
                 bubbleContent = <><h3>Please set a name for your poll</h3><button
                         onClick={()=>{this.setState({pageState: CreatePollPage.PageStateValues.GATHER_INFO})}}>Go Back</button></>;
                 break;
+            default:
             case (CreatePollPage.PageStateValues.GATHER_INFO):
                 className = '';
                 bubbleContent = <CreatePollBubble onSubmit={this.onSubmit} onBubbleStateChange={this.onBubbleStateChange} pollItems={this.state.pollItems}/>;

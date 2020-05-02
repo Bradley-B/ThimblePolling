@@ -267,6 +267,46 @@ svg {
     font-size: 3vw;
 }
 
+.login-form {
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    margin-bottom: 4vh;
+}
+
+.login-form input[type="text"] {
+    width: 70%;
+    background: transparent;
+    border: none;
+    border-bottom: solid var(--primary-background);
+    font-size: 3vw;
+    color: var(--primary-orange);
+}
+
+.login-form input[type="submit"] {
+    background-color: transparent;
+    color: white;
+    font-family: 'PT Sans', sans-serif;
+    font-size: 1rem;
+    padding: 10px;
+    border-radius: 10px;
+    cursor: pointer;
+    width: 30%;
+    margin-top: 30px;
+    border: 2px solid var(--primary-orange);
+}
+
+.login-form input[type="submit"]:hover {
+    cursor: pointer;
+    transform: scale(1.1);
+}
+
+.login-form input::placeholder {
+    color: #edc366;
+}
+
 @keyframes intro-bubble {
     from {opacity: 0.25; transform: scale(0.75);}
     to {opacity: 1; transform: scale(1);}
@@ -298,7 +338,7 @@ svg {
     .create-poll-sidebar-form {
         font-size: 6vw;
     }
-    .view-poll-bubble-content {
-
+    .login-form input {
+        font-size: 5vw;
     }
 }
