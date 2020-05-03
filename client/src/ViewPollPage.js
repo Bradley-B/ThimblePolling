@@ -2,6 +2,12 @@ import React from "react";
 import Confetti from "./Confetti";
 
 export default class ViewPollPage extends React.Component {
+    static get PollResponseValues() {
+        return Object.freeze({
+            YES: "YES",
+            NO: "NO"
+        });
+    }
     static get PageStateValues() {
         return Object.freeze({
             LOADING: "loading",
@@ -17,6 +23,7 @@ export default class ViewPollPage extends React.Component {
         this.state = {pageState: ViewPollPage.PageStateValues.LOADING};
         this.onLogin = this.onLogin.bind(this);
         this.onLoginStateChange = this.onLoginStateChange.bind(this);
+        this.onPollResponse = this.onPollResponse.bind(this);
     }
 
     componentDidMount() {
@@ -31,13 +38,33 @@ export default class ViewPollPage extends React.Component {
         });
     }
 
+    sendPollItemRequest(questionId, value) {
+        fetch('/api/update', {
+            method: 'PUT',
+            headers: {'Content-Type': 'application/json'},
+            body: JSON.stringify({
+                authorname: this.state.username,
+                questionid: questionId,
+                value: value
+            })
+        });
+    }
+
+    onPollResponse(e) {
+        let value = e.target.checked ? ViewPollPage.PollResponseValues.YES : ViewPollPage.PollResponseValues.NO;
+        this.sendPollItemRequest(e.target.id, value);
+    }
+
     onLoginStateChange(e) {
         this.setState({username: e.target.value});
     }
 
     onLogin(e) {
         e.preventDefault();
-        this.setState({pageState: ViewPollPage.PageStateValues.DISPLAY_POLL})
+        this.setState({pageState: ViewPollPage.PageStateValues.DISPLAY_POLL});
+        this.state.pollItems.forEach((item)=>{
+            this.sendPollItemRequest(item.questionid, ViewPollPage.PollResponseValues.NO);
+        });
     }
 
     render() {
@@ -51,7 +78,7 @@ export default class ViewPollPage extends React.Component {
                 break;
             case (ViewPollPage.PageStateValues.LOG_IN):
                 title = "Log In";
-                bubbleContent = <LogIn username={this.state.username} onLogin={this.onLogin}/>;
+                bubbleContent = <LogIn onLoginStateChange={this.onLoginStateChange} username={this.state.username} onLogin={this.onLogin}/>;
                 break;
             case (ViewPollPage.PageStateValues.NOT_FOUND_ERROR):
                 title = "Not Found";
@@ -59,7 +86,7 @@ export default class ViewPollPage extends React.Component {
                 break;
             case (ViewPollPage.PageStateValues.DISPLAY_POLL):
                 title = this.state.pollName;
-                bubbleContent = <div/>;
+                bubbleContent = <ViewPoll onPollResponse={this.onPollResponse} pollItems={this.state.pollItems}/>;
                 break;
         }
 
@@ -72,11 +99,19 @@ export default class ViewPollPage extends React.Component {
     }
 }
 
-function LogIn({username, onLogin}) {
+function ViewPoll({pollItems, onPollResponse}) {
+    return <>
+        {pollItems.map((item, index) => {
+            return <div onChange={onPollResponse} key={index}><input id={item.questionid} type="checkbox"/> <label>{item.name}</label> </div>;
+        })}
+    </>;
+}
+
+function LogIn({username, onLogin, onLoginStateChange}) {
     return <>
         <h3>Enter your name</h3>
         <form className={"login-form"} onSubmit={onLogin}>
-            <input required value={username} placeholder="enter name here" id="username" name="username" type={"text"} />
+            <input onChange={onLoginStateChange} required value={username} placeholder="enter name here" id="username" name="username" type={"text"} />
             <input type={"submit"} />
         </form>
     </>;
