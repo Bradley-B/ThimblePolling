@@ -10,7 +10,7 @@ export default class CreatePollSidebar extends React.Component {
     onRequireLoginChange(e) {
         let name = e.target.name;
         let value = e.target.checked;
-        this.props.onSidebarStateChange({[name]: value});
+        this.props.onSidebarStateChange({[name]: true});
     }
 
     onNameChange(e) {
@@ -28,8 +28,8 @@ export default class CreatePollSidebar extends React.Component {
                        name="pollName" id="pollName" type="text" placeholder="enter poll name here"/>
 
                 <label htmlFor="requireLogin">Require Login</label>
-                <input onChange={this.onRequireLoginChange} value={this.props.requireLogin}
-                       name="requireLogin" id="requireLogin" defaultChecked={true} type="checkbox"/>
+                <input onChange={this.onRequireLoginChange} checked={this.props.requireLogin}
+                       name="requireLogin" id="requireLogin" type="checkbox"/>
             </form>
         </div>;
     }
