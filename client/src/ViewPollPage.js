@@ -1,5 +1,6 @@
 import React from "react";
 import Confetti from "./Confetti";
+import ViewPollSidebar from "./ViewPollSidebar";
 
 export default class ViewPollPage extends React.Component {
     static get PollResponseValues() {
@@ -97,6 +98,7 @@ export default class ViewPollPage extends React.Component {
             case (ViewPollPage.PageStateValues.DISPLAY_POLL):
                 title = this.state.pollName;
                 bubbleContent = <ViewPoll onPollResponse={this.onPollResponse} pollItems={this.state.pollItems}/>;
+                sidebarContent = <ViewPollSidebar pollItems={this.state.pollItems}/>;
                 break;
         }
 
