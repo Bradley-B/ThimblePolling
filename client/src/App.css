@@ -344,11 +344,18 @@ svg {
 
 .view-poll-bubble-content-form-item label {
     margin-left: 20px;
+    text-align: left;
 }
 
 .view-poll-bubble-content-form h3 {
     color: var(--primary-orange);
     font-size: 1.9rem;
+}
+
+.view-poll-sidebar {
+    position: absolute;
+    height: 80%;
+    width: 100%;
 }
 
 /*.red {*/

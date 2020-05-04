@@ -35,7 +35,7 @@ export default class ViewPollPage extends React.Component {
             if(result.exists === false) {
                 this.setState({pageState: ViewPollPage.PageStateValues.NOT_FOUND_ERROR});
             } else {
-              this.setState({pollName: result.name, pollItems: result.questions, pageState: ViewPollPage.PageStateValues.LOG_IN});
+              this.setState({username: '', pollName: result.name, pollItems: result.questions, pageState: ViewPollPage.PageStateValues.LOG_IN});
               // this.setState({username: "Bradley", pollName: result.name, pollItems: result.questions, pageState: ViewPollPage.PageStateValues.DISPLAY_POLL});
             }
         });
