@@ -58,7 +58,7 @@ svg {
     position: absolute;
     width: 10px;
     height: 20px;
-    animation: confetti-movement 1s ease-in-out 0s infinite;
+    /*animation: confetti-movement 1s ease-in-out 0s infinite;*/
 }
 
 @keyframes confetti-movement {
@@ -117,7 +117,7 @@ svg {
     margin-left: 20px;
     margin-top: 20px;
 }
-
+/*TODO*/
 .create-poll-form input[type="text"] {
     padding-left: 10px;
     margin-left: 20px;
@@ -264,7 +264,7 @@ svg {
     flex-direction: column;
     justify-content: center;
     text-align: center;
-    font-size: 3vw;
+    font-size: 200%;
 }
 
 .login-form {
@@ -307,6 +307,54 @@ svg {
     color: #edc366;
 }
 
+.view-poll-bubble-content-form {
+    color: white;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    height: 100%;
+}
+
+.view-poll-bubble-content-form-inner {
+    overflow: auto;
+}
+
+.view-poll-bubble-content-form-item {
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-start;
+    align-items: center;
+    margin-left: 20px;
+    margin-top: 20px;
+}
+
+.view-poll-bubble-content-form-item input {
+    min-width: 40px;
+    min-height: 40px;
+}
+
+.view-poll-bubble-content-form-item label {
+    margin-left: 20px;
+}
+
+.view-poll-bubble-content-form h3 {
+    color: var(--primary-orange);
+    font-size: 1.9rem;
+}
+
+/*.red {*/
+/*    background-color: #ff4253;*/
+/*    margin-left: 10px;*/
+/*    width: 20px;*/
+/*    height: 20px;*/
+/*}*/
+
+/*.green {*/
+/*    background-color: #84d970;*/
+/*    margin-left: 10px;*/
+/*    width: 20px;*/
+/*    height: 20px;*/
+/*}*/
 @keyframes intro-bubble {
     from {opacity: 0.25; transform: scale(0.75);}
     to {opacity: 1; transform: scale(1);}

@@ -24,6 +24,7 @@ export default class ViewPollPage extends React.Component {
         this.onLogin = this.onLogin.bind(this);
         this.onLoginStateChange = this.onLoginStateChange.bind(this);
         this.onPollResponse = this.onPollResponse.bind(this);
+        this.sendPollItemRequest = this.sendPollItemRequest.bind(this);
     }
 
     componentDidMount() {
@@ -33,7 +34,8 @@ export default class ViewPollPage extends React.Component {
             if(result.exists === false) {
                 this.setState({pageState: ViewPollPage.PageStateValues.NOT_FOUND_ERROR});
             } else {
-                this.setState({pollName: result.name, pollItems: result.questions, pageState: ViewPollPage.PageStateValues.LOG_IN});
+              this.setState({pollName: result.name, pollItems: result.questions, pageState: ViewPollPage.PageStateValues.LOG_IN});
+              // this.setState({username: "Bradley", pollName: result.name, pollItems: result.questions, pageState: ViewPollPage.PageStateValues.DISPLAY_POLL});
             }
         });
     }
@@ -47,6 +49,14 @@ export default class ViewPollPage extends React.Component {
                 questionid: questionId,
                 value: value
             })
+        }).then(response => {
+            // if(response.status === 204) {
+            //     let cssClass = value === ViewPollPage.PollResponseValues.YES ? "green" : "red";
+            //     this.setState({pollItems: this.state.pollItems.map((item) => {
+            //             if(questionId === item.questionid) item.cssClass = cssClass;
+            //             return item;
+            //     })});
+            // }
         });
     }
 
@@ -100,11 +110,17 @@ export default class ViewPollPage extends React.Component {
 }
 
 function ViewPoll({pollItems, onPollResponse}) {
-    return <>
-        {pollItems.map((item, index) => {
-            return <div onChange={onPollResponse} key={index}><input id={item.questionid} type="checkbox"/> <label>{item.name}</label> </div>;
-        })}
-    </>;
+    return <div className={"view-poll-bubble-content-form"}>
+        <div className={"view-poll-bubble-content-form-inner"}>
+            {pollItems.map((item, index) => {
+                return <div className="view-poll-bubble-content-form-item" onChange={onPollResponse} key={index}><input id={item.questionid} type="checkbox"/>
+                    <label>{item.name}</label>
+                    {/*<div className={item.cssClass}/>*/}
+                </div>;
+            })}
+        </div>
+        <h3>Your choices are saved automatically.</h3>
+    </div>;
 }
 
 function LogIn({username, onLogin, onLoginStateChange}) {
