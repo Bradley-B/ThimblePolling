@@ -24,6 +24,15 @@ svg {
     background-color: var(--primary-background);
 }
 
+.logo-animation {
+    animation: logo-movement 1s linear infinite;
+}
+
+@keyframes logo-movement {
+    0% { transform: rotate(0); }
+    100% { transform: rotate(360deg); }
+}
+
 .App {
     --secondary-background: #5c6199;
     --primary-green: #41b853;
@@ -117,7 +126,7 @@ svg {
     margin-left: 20px;
     margin-top: 20px;
 }
-/*TODO*/
+
 .create-poll-form input[type="text"] {
     padding-left: 10px;
     margin-left: 20px;

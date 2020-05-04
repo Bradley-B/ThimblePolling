@@ -10,13 +10,37 @@ import {
 import CreatePollPage from "./CreatePollPage";
 import ViewPollPage from "./ViewPollPage";
 
-function App() {
-    return (
-        <div className="App">
-            <img className="logo" src={logo} alt="logo"/>
+class App extends React.Component {
+    constructor(props) {
+        super(props);
+        this.state = {};
+    }
+
+    randomAnimation() {
+        let number = Math.floor(Math.random() * 50);
+        this.setState({animate: number === 1});
+    }
+
+    componentDidMount() {
+        let intervalId = setInterval(()=>this.randomAnimation(), 5000);
+        this.setState({interval: intervalId});
+    }
+
+    componentWillUnmount() {
+        clearInterval(this.state.interval);
+    }
+
+    render() {
+        let className = "logo ";
+        if(this.state.animate) {
+            className = className + "logo-animation";
+        }
+
+        return <div className="App">
+            <img className={className} src={logo} alt="logo"/>
             <MainPage/>
         </div>
-    );
+    };
 }
 
 class MainPage extends React.Component {
