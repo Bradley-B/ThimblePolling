@@ -1,148 +1,408 @@
+* {
+    margin: 0;
+}
+
+body {
+    --primary-background: #1c2047;
+    overflow-x: hidden;
+    overflow-y: hidden;
+    background-color: var(--primary-background);
+}
+
+svg {
+    height: auto;
+    width: 100%;
+}
+
+.logo {
+    z-index: 2;
+    position: absolute;
+    margin-left: 30px;
+    margin-top: 30px;
+    width: 15vw;
+    min-width: 100px;
+    background-color: var(--primary-background);
+}
+
+.logo-animation {
+    animation: logo-movement 1s linear infinite;
+}
+
+@keyframes logo-movement {
+    0% { transform: rotate(0); }
+    100% { transform: rotate(360deg); }
+}
+
 .App {
-  text-align: center;
+    --secondary-background: #5c6199;
+    --primary-green: #41b853;
+    --primary-red: #f40058;
+    --primary-blue: #43bee5;
+    --primary-purple: #9c19cc;
+    --primary-orange: #efa500;
+    width: 100vw;
+    height: 100vh;
+    font-family: 'PT Sans', sans-serif;
 }
 
-.App-link {
-  color: #61dafb;
+.title-container {
+    width: 100vw;
+    display: flex;
+    justify-content: center;
+    text-align: center;
 }
 
-.App-logo {
-  height: 40vmin;
-  pointer-events: none;
+.title {
+    background-color: var(--primary-background);
+    max-width: 70vw;
+    z-index: 2;
+    position: relative;
+    top: 10vh;
+    color: var(--primary-orange);
+    font-weight: normal;
+    font-size: calc(10px + 8vmin);
 }
 
-@media (prefers-reduced-motion: no-preference) {
-  .App-logo {
-    animation: App-logo-spin infinite 20s linear;
-  }
+.confetti {
+    position: absolute;
+    width: 10px;
+    height: 20px;
+    /*animation: confetti-movement 1s ease-in-out 0s infinite;*/
 }
 
-.App-header {
-  background-color: #282c34;
-  min-height: 10vh;
-  display: flex;
-  flex-direction: row;
-  align-items: flex-start;
-  justify-content: flex-start;
-  font-size: calc(10px + 2vmin);
-  color: white;
+@keyframes confetti-movement {
+    0% {transform: rotate(-180deg)}
+    70% {transform: rotate(360deg)}
+    100% {transform: rotate(360deg)}
 }
 
-.App-header p {
-  position: absolute;
-  left: 20vw;
-  margin: 0;
+#sidebar {
+    position: fixed;
+    top: 10vh;
+    left: 72vw;
+    height: 80vh;
+    width: 25vw;
+    max-width: 275px;
+    background-color: var(--secondary-background);
+    border: solid 2px black;
+    transform: rotate(-6deg);
+    animation: intro-sidebar 0.4s ease-in;
 }
 
-.App-header nav {
-  position: absolute;
-  right: 10vw;
+#talk-bubble {
+    border: solid black 2px;
+    left: 15vw;
+    top: 29vh;
+    max-width: 35rem;
+    width: 40vw;
+    height: calc(27vh + 150px);
+    background: var(--secondary-background);
+    position: absolute;
+    border-radius: 5px;
+    animation: intro-bubble 0.4s ease-in;
 }
 
-.App-header nav a {
-  color: red;
-  padding-left: 1vw;
-  padding-right: 1vw;
+#talk-bubble-bubble {
+    position: relative;
+    left: 10.2vw;
+    top: 25vh;
+    height: auto;
+    width: 10vw;
 }
 
-.body {
-  min-height: 100vh;
-  max-height: 100vh;
+.create-poll-form {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    height: 100%;
+    overflow: auto;
 }
 
-.poll {
-  color: gray;
-  display: flex;
-  flex-wrap: wrap;
-  flex-direction: row;
-  justify-content: center;
+.create-poll-form input[type="checkbox"] {
+    min-width: 40px;
+    min-height: 40px;
+    width: 5vw;
+    height: 5vw;
+    margin-left: 20px;
+    margin-top: 20px;
 }
 
-.poll-results {
-  padding-top: 1rem;
+.create-poll-form input[type="text"] {
+    padding-left: 10px;
+    margin-left: 20px;
+    margin-top: 20px;
+    margin-right: 20px;
+    background-color: var(--secondary-background);
+    border: none;
+    border-bottom: solid var(--primary-background);
+    color: var(--primary-orange);
+    font-family: 'PT Sans', sans-serif;
+    font-size: 200%;
+    width: 100%;
 }
 
-.poll span {
-  padding-left: 8rem;
-  padding-right: 8rem;
+.create-poll-form input[type="text"]::placeholder {
+    color: #edc366;
 }
 
-.poll-question {
-  display: flex;
-  flex-direction: row;
-  padding: 0;
-  margin-top: 15px;
-  margin-bottom: 15px;
+.create-poll-item {
+    display: flex;
+    flex-direction: row;
 }
 
-.poll-question li {
-  display: inline-block;
-  margin-left: 5px;
-  margin-right: 5px;
-  width: 25vw;
-  max-width: 8rem;
-  height: 3rem;
-  position: relative;
+.create-poll-items {
+    overflow: auto;
 }
 
-.poll-question label, .poll-question input {
-  display: block;
-  position: absolute;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
+.create-poll-buttons {
+    margin-top: 10px;
+    margin-bottom: 10px;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-evenly;
+    width: 100%;
 }
 
-.poll-question input[type="radio"] {
-  opacity: 0.011;
-  z-index: 100;
+.create-poll-buttons button, .create-poll-buttons input[type="submit"] {
+    background-color: transparent;
+    color: white;
+    font-family: 'PT Sans', sans-serif;
+    font-size: 1rem;
+    padding: 10px;
+    border-radius: 10px;
+    cursor: pointer;
+    width: 30%;
 }
 
-.poll-question input[type="radio"]:checked + label#no {
-  background: rgba(255, 0, 0, 0.5);
+.create-poll-buttons button:hover, .create-poll-buttons input[type="submit"]:hover {
+    transform: scale(1.1);
 }
 
-.poll-question input[type="radio"]:checked + label#yes {
-  background: rgba(0, 255, 0, 0.5);
+.create-poll-buttons button#add {
+    border: 2px solid var(--primary-green);
 }
 
-.poll-question label {
-  padding: 5px;
-  border: 1px solid #CCC;
-  cursor: pointer;
-  z-index: 90;
+.create-poll-buttons button#remove {
+    border: 2px solid var(--primary-red);
 }
 
-.poll-question label#no:hover {
-  background: rgba(255, 0, 0, 0.15);
+.create-poll-buttons input#submit {
+    border: 2px solid var(--primary-orange);
 }
 
-.poll-question label#yes:hover {
-  background: rgba(0, 255, 0, 0.15);
+.sidebar-content {
+    /*transform: rotate(5deg);*/
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    height: 100%;
+    font-size: 1.5rem;
 }
 
-.login-form input[type="text"], .create-form input[type="text"]{
-  width: 250px;
-  padding: 10px;
-  border: none;
-  border-radius: 5px;
-  background-color: rgba(0, 0, 0, 0.05);
-  margin: 0 0 25px 0;
+.sidebar-content h2 {
+    color: var(--primary-orange);
+    font-size: 2.5vw;
+    margin-top: 10px;
 }
 
-.login-form input[type="submit"], .create-form input[type="submit"], .create-form button {
-  width: 8rem;
-  height: 3rem;
-  border: 1px solid #CCC;
-  color: black;
-  background-color: white;
-  cursor: pointer;
-  border-radius: 5px;
+.create-poll-sidebar-form {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    height: 50%;
+    width: 100%;
+    justify-content: center;
 }
 
-.create-form button {
-  margin-bottom: 10px;
-  margin-left: 10px;
-  margin-right: 10px;
+.create-poll-sidebar-form label {
+    color: black;
+    margin-top: 40px;
+}
+
+.create-poll-sidebar-form input[type="checkbox"] {
+    width: 50px;
+    height: 50px;
+}
+
+
+.create-poll-sidebar-form input[type="text"] {
+    background-color: transparent;
+    border: none;
+    border-bottom: solid var(--primary-background);
+    color: var(--primary-orange);
+    font-family: 'PT Sans', sans-serif;
+    font-size: inherit;
+    width: 90%;
+}
+
+.create-poll-sidebar-form input[type="text"]::placeholder {
+    color: #edc366;
+}
+
+.create-poll-bubble-content {
+    display: flex;
+    flex-direction: column;
+    text-align: center;
+    color: var(--primary-orange);
+    justify-content: center;
+    font-size: 4vw;
+    align-items: center;
+}
+
+.create-poll-bubble-content button {
+    background-color: transparent;
+    color: white;
+    font-family: 'PT Sans', sans-serif;
+    font-size: 1rem;
+    padding: 10px;
+    border-radius: 10px;
+    width: 30%;
+    border: 2px solid var(--primary-orange);
+    cursor: pointer;
+    margin-top: 20px;
+}
+
+.create-poll-bubble-content button:hover {
+    cursor: pointer;
+    transform: scale(1.1);
+}
+
+.view-poll-bubble-content {
+    color: var(--primary-orange);
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    text-align: center;
+    font-size: 200%;
+}
+
+.login-form {
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    margin-bottom: 4vh;
+}
+
+.login-form input[type="text"] {
+    width: 70%;
+    background: transparent;
+    border: none;
+    border-bottom: solid var(--primary-background);
+    font-size: 3vw;
+    color: var(--primary-orange);
+}
+
+.login-form input[type="submit"] {
+    background-color: transparent;
+    color: white;
+    font-family: 'PT Sans', sans-serif;
+    font-size: 1rem;
+    padding: 10px;
+    border-radius: 10px;
+    cursor: pointer;
+    width: 30%;
+    margin-top: 30px;
+    border: 2px solid var(--primary-orange);
+}
+
+.login-form input[type="submit"]:hover {
+    cursor: pointer;
+    transform: scale(1.1);
+}
+
+.login-form input::placeholder {
+    color: #edc366;
+}
+
+.view-poll-bubble-content-form {
+    color: white;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    height: 100%;
+}
+
+.view-poll-bubble-content-form-inner {
+    overflow: auto;
+}
+
+.view-poll-bubble-content-form-item {
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-start;
+    align-items: center;
+    margin-left: 20px;
+    margin-top: 20px;
+}
+
+.view-poll-bubble-content-form-item input {
+    min-width: 40px;
+    min-height: 40px;
+}
+
+.view-poll-bubble-content-form-item label {
+    margin-left: 20px;
+    text-align: left;
+}
+
+.view-poll-bubble-content-form h3 {
+    color: var(--primary-orange);
+    font-size: 1.9rem;
+}
+
+.view-poll-sidebar {
+    position: absolute;
+    height: 80%;
+    width: 100%;
+}
+
+/*.red {*/
+/*    background-color: #ff4253;*/
+/*    margin-left: 10px;*/
+/*    width: 20px;*/
+/*    height: 20px;*/
+/*}*/
+
+/*.green {*/
+/*    background-color: #84d970;*/
+/*    margin-left: 10px;*/
+/*    width: 20px;*/
+/*    height: 20px;*/
+/*}*/
+@keyframes intro-bubble {
+    from {opacity: 0.25; transform: scale(0.75);}
+    to {opacity: 1; transform: scale(1);}
+}
+
+@keyframes intro-sidebar {
+    from {opacity: 0.25; transform: scale(0.75);}
+    to {opacity: 1; transform: scale(1) rotate(-6deg);}
+}
+
+@media only screen and (max-width: 800px) {
+    body {
+        overflow-y: auto;
+    }
+    #sidebar {
+        position: absolute;
+        top: calc(40vh + calc(27vh + 150px));
+        left: 20%;
+        width: 60vw;
+        max-width: none;
+    }
+    #talk-bubble {
+        left: 10%;
+        width: 80%;
+    }
+    .sidebar-content h2 {
+        font-size: 5vw;
+    }
+    .create-poll-sidebar-form {
+        font-size: 6vw;
+    }
+    .login-form input {
+        font-size: 5vw;
+    }
 }
