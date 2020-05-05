@@ -49,14 +49,6 @@ export default class ViewPollPage extends React.Component {
                 questionid: questionId,
                 value: value
             })
-        }).then(response => {
-            // if(response.status === 204) {
-            //     let cssClass = value === ViewPollPage.PollResponseValues.YES ? "green" : "red";
-            //     this.setState({pollItems: this.state.pollItems.map((item) => {
-            //             if(questionId === item.questionid) item.cssClass = cssClass;
-            //             return item;
-            //     })});
-            // }
         });
     }
 
@@ -127,7 +119,6 @@ function ViewPoll({pollItems, onPollResponse}) {
             {pollItems.map((item, index) => {
                 return <div className="view-poll-bubble-content-form-item" onChange={onPollResponse} key={index}><input id={item.questionid} type="checkbox"/>
                     <label>{item.name}</label>
-                    {/*<div className={item.cssClass}/>*/}
                 </div>;
             })}
         </div>
