@@ -9,7 +9,6 @@ export default class CreatePollSidebar extends React.Component {
 
     onRequireLoginChange(e) {
         let name = e.target.name;
-        let value = e.target.checked;
         this.props.onSidebarStateChange({[name]: true});
     }
 

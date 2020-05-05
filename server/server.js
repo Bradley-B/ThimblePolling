@@ -19,10 +19,10 @@ app.use(express.static(path.join(__dirname, 'build')));
 
 app.post('/api/create/', function(req, res) {
 	//objective: create new poll and send the url back to the client
-	console.log("got create body "  + JSON.stringify(req.body));
+	//console.log("got create body "  + JSON.stringify(req.body));
 
 	if(!req.body.hasOwnProperty("questions") || !req.body.hasOwnProperty("name")) {
-		console.log("create body did not have sufficient data");
+		//console.log("create body did not have sufficient data");
 		return res.sendStatus(400);
 	}
 
@@ -68,10 +68,10 @@ app.get('/*', function (req, res) {
 
 app.put('/api/update', function(req, res) {
 	//objective: create a row for the answer
-	console.log("got update body: " + JSON.stringify(req.body));
+	//console.log("got update body: " + JSON.stringify(req.body));
 
 	if(!req.body.hasOwnProperty('authorname') || !req.body.hasOwnProperty('value') || !req.body.hasOwnProperty('questionid')) {
-		console.log("update body did not have sufficient data");
+		//console.log("update body did not have sufficient data");
 		return res.sendStatus(400);
 	}
 
