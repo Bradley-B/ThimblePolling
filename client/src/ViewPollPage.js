@@ -11,8 +11,9 @@ export default class ViewPollPage extends React.Component {
     }
     static get PageStateValues() {
         return Object.freeze({
-            LOADING: "loading",
+            LOADING: "loading", //page loading
             LOG_IN: "logIn",
+            LOG_IN_LOADING: "logInLoading", //loading after the user logs in
             NETWORK_ERROR: "networkError",
             NOT_FOUND_ERROR: "notFoundError",
             DISPLAY_POLL: "displayPoll"
@@ -66,6 +67,10 @@ export default class ViewPollPage extends React.Component {
     onPollResponse(e) {
         let value = e.target.checked ? ViewPollPage.PollResponseValues.YES : ViewPollPage.PollResponseValues.NO;
         this.sendPollItemRequest(e.target.id, value);
+
+        let responseMap = this.state.pollItemResponses;
+        responseMap.set(e.target.id, e.target.checked);
+        this.setState({pollItemResponses: responseMap});
     }
 
     onLoginStateChange(e) {
@@ -74,9 +79,23 @@ export default class ViewPollPage extends React.Component {
 
     onLogin(e) {
         e.preventDefault();
-        this.setState({pageState: ViewPollPage.PageStateValues.DISPLAY_POLL});
-        this.state.pollItems.forEach((item)=>{
-            this.sendPollItemRequest(item.questionid, ViewPollPage.PollResponseValues.NO);
+        this.setState({pageState: ViewPollPage.PageStateValues.LOG_IN_LOADING});
+
+        fetch(`/api/get/${this.props.id}/responses/${this.state.username}`).then((response)=>{ //repopulate the user's choices
+            return response.json();
+        }).then(result => {
+            let responseMap = new Map();
+            if(Object.keys(result).length === 0) { //true if author does not exist already in the database
+                this.state.pollItems.forEach((item)=>{
+                    this.sendPollItemRequest(item.questionid, ViewPollPage.PollResponseValues.NO);
+                    responseMap.set(item.questionid, false);
+                });
+            }
+
+            for (const key of Object.keys(result)) {
+                responseMap.set(key, result[key]);
+            }
+            this.setState({pageState: ViewPollPage.PageStateValues.DISPLAY_POLL, pollItemResponses: responseMap});
         });
     }
 
@@ -86,6 +105,7 @@ export default class ViewPollPage extends React.Component {
         switch (this.state.pageState) {
             default:
             case (ViewPollPage.PageStateValues.LOADING):
+            case (ViewPollPage.PageStateValues.LOG_IN_LOADING):
                 title = "Loading...";
                 bubbleContent = <h3>Loading Poll Information...</h3>;
                 break;
@@ -99,7 +119,7 @@ export default class ViewPollPage extends React.Component {
                 break;
             case (ViewPollPage.PageStateValues.DISPLAY_POLL):
                 title = this.state.pollName;
-                bubbleContent = <ViewPoll onPollResponse={this.onPollResponse} pollItems={this.state.pollItems}/>;
+                bubbleContent = <ViewPoll onPollResponse={this.onPollResponse} pollItems={this.state.pollItems} pollItemResponses={this.state.pollItemResponses}/>;
                 sidebarContent = <ViewPollSidebar fetchPoll={this.fetchPoll} id={this.props.id} pollItems={this.state.pollItems}/>;
                 break;
         }
@@ -113,11 +133,12 @@ export default class ViewPollPage extends React.Component {
     }
 }
 
-function ViewPoll({pollItems, onPollResponse}) {
+function ViewPoll({pollItems, onPollResponse, pollItemResponses}) {
     return <div className={"view-poll-bubble-content-form"}>
         <div className={"view-poll-bubble-content-form-inner"}>
             {pollItems.map((item, index) => {
-                return <div className="view-poll-bubble-content-form-item" onChange={onPollResponse} key={index}><input id={item.questionid} type="checkbox"/>
+                return <div className="view-poll-bubble-content-form-item" key={index}>
+                    <input checked={pollItemResponses.get(item.questionid)} onChange={onPollResponse} id={item.questionid} type="checkbox"/>
                     <label>{item.name}</label>
                 </div>;
             })}
