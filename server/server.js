@@ -62,6 +62,20 @@ app.get('/api/get/:pollid', function(req, res) {
 	});
 });
 
+app.get('/api/get/:pollid/responses/:author', function (req, res) {
+	let pollId = req.params.pollid;
+	let author = req.params.author;
+	db.getPollResponsesFrom(pollId, author).then((answers)=>{
+		const responseObject = {questions: answers.map((answer)=> {
+			return {
+				questionid: answer.questionid,
+				response: answer.value === 'YES'
+			}
+		})};
+		return res.send(JSON.stringify(responseObject)+"\n");
+	});
+});
+
 app.get('/*', function (req, res) {
 	res.sendFile(path.join(__dirname, 'build', 'index.html'))
 });

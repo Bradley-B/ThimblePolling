@@ -77,4 +77,8 @@ module.exports = class Database {
 		${this.escape(authorName)}, ${this.escape(questionId)}) ON DUPLICATE KEY UPDATE value=${this.escape(value)}`);
     }
 
+    getPollResponsesFrom(pollId, author) {
+        return this.query(`SELECT value, questionid FROM answer WHERE authorname=${this.escape(author)} 
+            AND questionid IN (SELECT id FROM question WHERE pollid=${this.escape(pollId)})`);
+    }
 };
