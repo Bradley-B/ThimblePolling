@@ -66,12 +66,10 @@ app.get('/api/get/:pollid/responses/:author', function (req, res) {
 	let pollId = req.params.pollid;
 	let author = req.params.author;
 	db.getPollResponsesFrom(pollId, author).then((answers)=>{
-		const responseObject = {questions: answers.map((answer)=> {
-			return {
-				questionid: answer.questionid,
-				response: answer.value === 'YES'
-			}
-		})};
+		const responseObject = {};
+		answers.forEach((answer)=>{
+			responseObject[answer.questionid] = answer.value === 'YES';
+		});
 		return res.send(JSON.stringify(responseObject)+"\n");
 	});
 });
