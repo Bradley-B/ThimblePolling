@@ -26,17 +26,16 @@ export default class ViewPollPage extends React.Component {
         this.onLoginStateChange = this.onLoginStateChange.bind(this);
         this.onPollResponse = this.onPollResponse.bind(this);
         this.sendPollItemRequest = this.sendPollItemRequest.bind(this);
+        this.fetchPoll = this.fetchPoll.bind(this);
     }
 
     componentDidMount() {
-        fetch("/api/get/"+this.props.id).then((response) => {
-            return response.json();
-        }).then((result)=>{
+        this.fetchPoll().then((result)=>{
             if(result.exists === false) {
                 this.setState({pageState: ViewPollPage.PageStateValues.NOT_FOUND_ERROR});
             } else {
-              this.setState({username: '', pollName: result.name, pollItems: result.questions, pageState: ViewPollPage.PageStateValues.LOG_IN});
-              // this.setState({username: "Bradley", pollName: result.name, pollItems: result.questions, pageState: ViewPollPage.PageStateValues.DISPLAY_POLL});
+                this.setState({username: '', pollName: result.name, pageState: ViewPollPage.PageStateValues.LOG_IN});
+                // this.setState({username: "Bradley", pollName: result.name, pageState: ViewPollPage.PageStateValues.DISPLAY_POLL});
             }
         });
     }
@@ -58,6 +57,17 @@ export default class ViewPollPage extends React.Component {
             //             return item;
             //     })});
             // }
+        });
+    }
+
+    fetchPoll() {
+        return fetch("/api/get/"+this.props.id).then((response) => {
+            return response.json();
+        }).then((result)=>{
+            if(result.exists) {
+                this.setState({pollItems: result.questions});
+            }
+            return result;
         });
     }
 
@@ -98,7 +108,7 @@ export default class ViewPollPage extends React.Component {
             case (ViewPollPage.PageStateValues.DISPLAY_POLL):
                 title = this.state.pollName;
                 bubbleContent = <ViewPoll onPollResponse={this.onPollResponse} pollItems={this.state.pollItems}/>;
-                sidebarContent = <ViewPollSidebar pollItems={this.state.pollItems}/>;
+                sidebarContent = <ViewPollSidebar fetchPoll={this.fetchPoll} id={this.props.id} pollItems={this.state.pollItems}/>;
                 break;
         }
 

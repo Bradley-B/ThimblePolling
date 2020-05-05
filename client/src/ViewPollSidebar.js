@@ -5,7 +5,7 @@ export default class ViewPollSidebar extends React.Component {
     constructor(props) {
         super(props);
         const colors = ["#41b853", "#43bee5", "#f40058", "#efa500", "#9c19cc"];
-        this.state = {data: {
+        this.state = {redraw: false, data: {
             labels: this.props.pollItems.map((item)=>{return item.name}),
             datasets: [{
                 data: this.props.pollItems.map((item)=>{return item.positivevotes}),
@@ -41,6 +41,27 @@ export default class ViewPollSidebar extends React.Component {
             }
         }};
 
+        this.fetchPoll = this.fetchPoll.bind(this);
+    }
+
+    fetchPoll() {
+        this.props.fetchPoll().then((poll)=>{
+            const datasetCopy = this.state.data.datasets.slice(0);
+            datasetCopy[0].data = poll.questions.map((item) => {
+                return item.positivevotes
+            });
+            this.setState({data: Object.assign({}, this.state.data, {
+                    datasets: datasetCopy
+            })});
+        });
+    }
+
+    componentDidMount() {
+        this.setState({interval: setInterval(this.fetchPoll, 5000)});
+    }
+
+    componentWillUnmount() {
+        clearInterval(this.state.interval);
     }
 
     render() {
