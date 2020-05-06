@@ -71,6 +71,15 @@ app.get('/api/get/:pollid', function(req, res) {
 	});
 });
 
+app.get('/api/get/:pollid/exists', function(req, res) {
+	let pollId = req.params.pollid;
+	db.getPollName(pollId).then(()=>{
+		return res.send(JSON.stringify({exists: true})+"\n");
+	}).catch(()=>{
+		return res.send(JSON.stringify({exists: false})+"\n");
+	});
+});
+
 app.get('/api/get/:pollid/responses/:author', function (req, res) {
 	let pollId = req.params.pollid;
 	let author = req.params.author;
