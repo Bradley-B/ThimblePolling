@@ -40,7 +40,7 @@ DROP TABLE IF EXISTS `poll`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `poll` (
-  `id` varchar(10) NOT NULL,
+  `id` varchar(100) NOT NULL,
   `name` varchar(255) NOT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
@@ -56,7 +56,7 @@ DROP TABLE IF EXISTS `question`;
 CREATE TABLE `question` (
   `id` varchar(45) NOT NULL,
   `name` varchar(255) NOT NULL,
-  `pollid` varchar(45) NOT NULL,
+  `pollid` varchar(100) NOT NULL,
   PRIMARY KEY (`id`),
   KEY `pollid_idx` (`pollid`),
   CONSTRAINT `pollid` FOREIGN KEY (`pollid`) REFERENCES `poll` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
