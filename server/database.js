@@ -40,8 +40,8 @@ module.exports = class Database {
             console.log("created row in table for poll with id: " + newPollId);
 
             let queries = [];
-            questions.forEach(questionName => {
-                let questionId = tools.randomString();
+            questions.forEach((questionName, index) => {
+                let questionId = tools.randomString() + '-' + index;
                 queries.push(this.query(`INSERT INTO question (id, name, pollid) VALUES ('${questionId}', ${this.escape(questionName)}, '${newPollId}')`));
                 console.log("created row in table for question with id: " + questionId);
             });

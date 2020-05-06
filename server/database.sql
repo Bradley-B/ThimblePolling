@@ -25,7 +25,7 @@ DROP TABLE IF EXISTS `answer`;
 CREATE TABLE `answer` (
   `value` varchar(3) NOT NULL,
   `authorname` varchar(100) NOT NULL,
-  `questionid` varchar(10) NOT NULL,
+  `questionid` varchar(45) NOT NULL,
   PRIMARY KEY (`authorname`,`questionid`),
   KEY `questionid_idx` (`questionid`),
   CONSTRAINT `questionid` FOREIGN KEY (`questionid`) REFERENCES `question` (`id`) ON DELETE CASCADE ON UPDATE CASCADE

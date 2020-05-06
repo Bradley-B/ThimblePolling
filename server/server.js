@@ -44,6 +44,15 @@ app.get('/api/get/:pollid', function(req, res) {
 		return db.getPollQuestions(pollId);
 	}).then((questions)=>{
 		let voteCounts = [];
+
+		if(questions[0].id.includes('-')) { //check for the '-' in the id to support legacy poll ids
+			questions.sort((a, b)=>{
+				const aIndex = parseInt(a.id.split('-')[1], 10);
+				const bIndex = parseInt(b.id.split('-')[1], 10);
+				return aIndex - bIndex;
+			});
+		}
+
 		questions.forEach((question)=>{
 			resultObject.questions.push({name: question.name, questionid: question.id});
 			voteCounts.push(db.getVoteCounts(question.id));
