@@ -36,14 +36,14 @@ module.exports = class Database {
     }
 
     createPoll(newPollId, pollName, questions) {
-        return this.query(`INSERT INTO poll (id, name) VALUES ('${newPollId}', ${this.escape(pollName)})`).then(() => {
-            console.log("created row in table for poll with id: " + newPollId);
+        return this.query(`INSERT INTO poll (id, name) VALUES (${newPollId}, ${this.escape(pollName)})`).then(() => {
+            // console.log("created row in table for poll with id: " + newPollId);
 
             let queries = [];
             questions.forEach((questionName, index) => {
                 let questionId = tools.randomString() + '-' + index;
-                queries.push(this.query(`INSERT INTO question (id, name, pollid) VALUES ('${questionId}', ${this.escape(questionName)}, '${newPollId}')`));
-                console.log("created row in table for question with id: " + questionId);
+                queries.push(this.query(`INSERT INTO question (id, name, pollid) VALUES ('${questionId}', ${this.escape(questionName)}, ${newPollId})`));
+                // console.log("created row in table for question with id: " + questionId);
             });
             return Promise.all(queries);
         });

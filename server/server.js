@@ -26,8 +26,8 @@ app.post('/api/create/', function(req, res) {
 		return res.sendStatus(400);
 	}
 
-	const newPollId = tools.randomString();
-	db.createPoll(newPollId, req.body.name, req.body.questions).catch((err)=>{
+	const newPollId = req.body.url || tools.randomString();
+	db.createPoll(db.escape(newPollId), req.body.name, req.body.questions).catch((err)=>{
 		console.log("DB ERROR: ", err);
 	}).finally(() => {
 		res.send(JSON.stringify({pollid: newPollId})+"\n");
@@ -72,7 +72,7 @@ app.get('/api/get/:pollid', function(req, res) {
 });
 
 app.get('/api/get/:pollid/exists', function(req, res) {
-	let pollId = req.params.pollid;
+	let pollId = db.escape(req.params.pollid);
 	db.getPollName(pollId).then(()=>{
 		return res.send(JSON.stringify({exists: true})+"\n");
 	}).catch(()=>{
