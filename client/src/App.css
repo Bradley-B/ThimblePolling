@@ -209,9 +209,10 @@ svg {
     display: flex;
     flex-direction: column;
     align-items: center;
-    height: 50%;
+    height: 100%;
     width: 100%;
-    justify-content: center;
+    margin-top: 10%;
+    justify-content: flex-start;
 }
 
 .create-poll-sidebar-form label {
@@ -231,7 +232,7 @@ svg {
     border-bottom: solid var(--primary-background);
     color: var(--primary-orange);
     font-family: 'PT Sans', sans-serif;
-    font-size: inherit;
+    font-size: 80%;
     width: 90%;
 }
 
