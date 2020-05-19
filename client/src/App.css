@@ -46,21 +46,24 @@ svg {
 }
 
 .title-container {
-    width: 100vw;
+    width: 60vw;
+    height: 5rem;
+    position: absolute;
+    top: 18vh;
+    left: 5.5vw;
     display: flex;
     justify-content: center;
     text-align: center;
 }
 
 .title {
+    display: flex;
+    align-items: center;
     background-color: var(--primary-background);
-    max-width: 70vw;
     z-index: 2;
-    position: relative;
-    top: 10vh;
     color: var(--primary-orange);
     font-weight: normal;
-    font-size: calc(10px + 8vmin);
+    font-size: 300%;
 }
 
 .confetti {
@@ -246,7 +249,6 @@ svg {
     text-align: center;
     color: var(--primary-orange);
     justify-content: center;
-    font-size: 4vw;
     align-items: center;
 }
 
@@ -384,13 +386,26 @@ svg {
         left: 10%;
         width: 80%;
     }
-    .sidebar-content h2 {
-        font-size: 5vw;
+    .title-container {
+        width: 90vw;
+        height: 6rem;
+        top: 12vh;
+        overflow: auto;
+        font-size: 0.6rem;
     }
-    .create-poll-sidebar-form {
+    .title {
+        display: block;
+    }
+    .sidebar-content h2 {
         font-size: 6vw;
     }
-    .login-form input {
-        font-size: 5vw;
+    .create-poll-sidebar-form, .login-form input[type="text"] {
+        font-size: 6vw;
+    }
+    .view-poll-bubble-content h3 {
+        font-size: 8vw;
+    }
+    .view-poll-bubble-content-form h3 {
+        font-size: 1rem;
     }
 }
