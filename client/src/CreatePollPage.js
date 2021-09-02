@@ -25,14 +25,20 @@ export default class CreatePollPage extends React.Component {
     }
 
     onSubmit() {
-        const pollUrl = this.state.pollUrl.trim();
+        let { pollUrl, pollName } = this.state;
+        pollUrl = pollUrl.trim();
+
         const regexp = /\\[nbfrtv0]|[\s{}%/'"?#:\\]/g;
         if(pollUrl.match(regexp) !== null) { //url format is bad
             this.setState({pageState: CreatePollPage.PageStateValues.URL_FORMAT_VERIFY_FAILURE});
             return;
         }
 
-        if(this.state.pollName.trim().length === 0) {
+        if(!pollUrl) {
+            pollUrl = Math.random().toString(36).slice(2);
+        }
+
+        if(pollName.trim().length === 0) {
             this.setState({pageState: CreatePollPage.PageStateValues.NAME_VERIFY_FAILURE});
             return;
         }
